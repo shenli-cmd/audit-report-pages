@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>审核异常检测报告 2026-05-27 18:29</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; color: #333; padding: 20px; }
+.container { max-width: 1200px; margin: 0 auto; }
+.header { background: linear-gradient(135deg, #ff4d4f, #ff7a45); color: #fff; padding: 30px; border-radius: 12px; margin-bottom: 24px; }
+.header h1 { font-size: 24px; margin-bottom: 8px; }
+.header .meta { opacity: 0.9; font-size: 14px; }
+.stats { display: flex; gap: 16px; margin-bottom: 24px; }
+.stat-card { background: #fff; padding: 20px 24px; border-radius: 10px; flex: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.stat-card .label { color: #888; font-size: 13px; margin-bottom: 6px; }
+.stat-card .value { font-size: 28px; font-weight: 700; }
+.stat-card .value.danger { color: #ff4d4f; }
+.stat-card .value.warning { color: #fa8c16; }
+.stat-card .value.info { color: #1890ff; }
+.card { background: #fff; border-radius: 10px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.card h2 { font-size: 18px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0; }
+.card h2 .tag { display: inline-block; background: #fff2f0; color: #ff4d4f; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 8px; font-weight: 400; }
+.ok { color: #52c41a; font-size: 15px; padding: 20px 0; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { background: #fafafa; padding: 10px 12px; text-align: left; font-weight: 600; color: #555; border-bottom: 2px solid #e8e8e8; white-space: nowrap; }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+.data-table tr:hover { background: #fafafa; }
+.data-table .danger-row td { background: #fff2f0; }
+.section-detail { margin-bottom: 24px; }
+.section h3 { font-size: 15px; color: #555; margin-bottom: 8px; }
+.footer { text-align: center; color: #999; font-size: 12px; padding: 20px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🚨 审核异常检测报告</h1>
+    <div class="meta">检测时间：2026-05-27 18:29 &nbsp;|&nbsp; 规则1阈值：>9000 &nbsp;|&nbsp; 规则2阈值：>10000</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="label">总数据量</div>
+      <div class="value info">4,239</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">规则1 异常条数</div>
+      <div class="value danger">6</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">规则2 异常组合数</div>
+      <div class="value warning">8</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>规则1：单条换算量超标（> 9000）<span class="tag">6 条</span></h2>
+    <table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>姓名</th>
+      <th>时间</th>
+      <th>审核区名称</th>
+      <th>系数</th>
+      <th>审核量</th>
+      <th>换算审核量</th>
+      <th>换算量</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>程昌宇01-vw</td>
+      <td>2026/05/26 00:00</td>
+      <td>PK视频题目(管低质5以内运算)日清iframe</td>
+      <td>7.0</td>
+      <td>2677</td>
+      <td>18739</td>
+      <td>18739.0</td>
+    </tr>
+    <tr>
+      <td>祝清华01-vw</td>
+      <td>2026/05/26 00:00</td>
+      <td>PK视频题目(管低质5以内运算)日清iframe</td>
+      <td>7.0</td>
+      <td>1897</td>
+      <td>13279</td>
+      <td>13279.0</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>2026/05/26 08:00</td>
+      <td>PU题目打标(iframe)</td>
+      <td>7.0</td>
+      <td>1620</td>
+      <td>11340</td>
+      <td>11340.0</td>
+    </tr>
+    <tr>
+      <td>李嘉俊02-vw</td>
+      <td>2026/05/26 00:00</td>
+      <td>PK视频题目(管低质5以内运算)日清iframe</td>
+      <td>7.0</td>
+      <td>1596</td>
+      <td>11172</td>
+      <td>11172.0</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>2026/05/26 09:00</td>
+      <td>PU题目打标(iframe)</td>
+      <td>7.0</td>
+      <td>1491</td>
+      <td>10437</td>
+      <td>10437.0</td>
+    </tr>
+    <tr>
+      <td>任杰07-vw</td>
+      <td>2026/05/26 01:00</td>
+      <td>PK视频题目(管低质5以内运算)日清iframe</td>
+      <td>7.0</td>
+      <td>1379</td>
+      <td>9653</td>
+      <td>9653.0</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="card">
+    <h2>规则2：单人单小时换算量合计超标（> 10000）<span class="tag">8 组</span></h2>
+    <table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>姓名</th>
+      <th>_hour_int</th>
+      <th>小时换算量合计</th>
+      <th>小时</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>程昌宇01-vw</td>
+      <td>0</td>
+      <td>21183.5</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>祝清华01-vw</td>
+      <td>0</td>
+      <td>15399.0</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>李嘉俊02-vw</td>
+      <td>0</td>
+      <td>13883.5</td>
+      <td>00:00</td>
+    </tr>
+    <tr>
+      <td>李达玮01-vw</td>
+      <td>22</td>
+      <td>12224.0</td>
+      <td>22:00</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>8</td>
+      <td>12161.5</td>
+      <td>08:00</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>8</td>
+      <td>12015.0</td>
+      <td>08:00</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>9</td>
+      <td>10887.0</td>
+      <td>09:00</td>
+    </tr>
+    <tr>
+      <td>李达玮01-vw</td>
+      <td>20</td>
+      <td>10408.0</td>
+      <td>20:00</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="footer">自动生成 by 审核异常检测 Skill</div>
+</div>
+</body>
+</html>
