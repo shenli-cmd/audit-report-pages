@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>审核异常检测报告 2026-05-28 10:26</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; color: #333; padding: 20px; }
+.container { max-width: 1200px; margin: 0 auto; }
+.header { background: linear-gradient(135deg, #ff4d4f, #ff7a45); color: #fff; padding: 30px; border-radius: 12px; margin-bottom: 24px; }
+.header h1 { font-size: 24px; margin-bottom: 8px; }
+.header .meta { opacity: 0.9; font-size: 14px; }
+.stats { display: flex; gap: 16px; margin-bottom: 24px; }
+.stat-card { background: #fff; padding: 20px 24px; border-radius: 10px; flex: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.stat-card .label { color: #888; font-size: 13px; margin-bottom: 6px; }
+.stat-card .value { font-size: 28px; font-weight: 700; }
+.stat-card .value.danger { color: #ff4d4f; }
+.stat-card .value.warning { color: #fa8c16; }
+.stat-card .value.info { color: #1890ff; }
+.stat-card .value.purple { color: #722ed1; }
+.card { background: #fff; border-radius: 10px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.card h2 { font-size: 18px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0; }
+.card h2 .tag { display: inline-block; background: #fff2f0; color: #ff4d4f; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 8px; font-weight: 400; }
+.ok { color: #52c41a; font-size: 15px; padding: 20px 0; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { background: #fafafa; padding: 10px 12px; text-align: left; font-weight: 600; color: #555; border-bottom: 2px solid #e8e8e8; white-space: nowrap; }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+.data-table tr:hover { background: #fafafa; }
+.data-table .danger-row td { background: #fff2f0; }
+.section-detail { margin-bottom: 24px; }
+.section h3 { font-size: 15px; color: #555; margin-bottom: 8px; }
+.footer { text-align: center; color: #999; font-size: 12px; padding: 20px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🚨 审核异常检测报告</h1>
+    <div class="meta">检测时间：2026-05-28 10:26 &nbsp;|&nbsp; 规则1阈值：>9000.0 &nbsp;|&nbsp; 规则2阈值：>10000.0 &nbsp;|&nbsp; 规则3阈值：>75000.0</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="label">总数据量</div>
+      <div class="value info">4,388</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">规则1 异常条数</div>
+      <div class="value danger">32</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">规则2 异常组合数</div>
+      <div class="value warning">35</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">规则3 全天超标人数</div>
+      <div class="value purple">4</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>规则1：单条换算量超标（> 9000.0）<span class="tag">32 条</span></h2>
+    <table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>姓名</th>
+      <th>时间</th>
+      <th>审核区名称</th>
+      <th>系数</th>
+      <th>审核量</th>
+      <th>换算审核量</th>
+      <th>删除量</th>
+      <th>删除率</th>
+      <th>换算量</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>2026/05/27 09:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>1490</td>
+      <td>37250</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>37250.0</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>2026/05/27 10:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>1412</td>
+      <td>35300</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>35300.0</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>2026/05/27 10:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>1375</td>
+      <td>34375</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>34375.0</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>2026/05/27 10:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>1371</td>
+      <td>34275</td>
+      <td>1</td>
+      <td>0.07</td>
+      <td>34275.0</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>2026/05/27 10:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>1294</td>
+      <td>32350</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>32350.0</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>2026/05/27 13:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>998</td>
+      <td>24950</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>24950.0</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>2026/05/27 16:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>987</td>
+      <td>24675</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>24675.0</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>2026/05/27 09:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>980</td>
+      <td>24500</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>24500.0</td>
+    </tr>
+    <tr>
+      <td>陈韦红01-vw</td>
+      <td>2026/05/27 17:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>978</td>
+      <td>24450</td>
+      <td>1</td>
+      <td>0.10</td>
+      <td>24450.0</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>2026/05/27 09:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>929</td>
+      <td>23225</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>23225.0</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>2026/05/27 10:00</td>
+      <td>PK视频题目(管低质5以内运算)日清iframe</td>
+      <td>7.0</td>
+      <td>3156</td>
+      <td>22092</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>22092.0</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>2026/05/27 09:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>859</td>
+      <td>21475</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>21475.0</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>2026/05/27 07:00</td>
+      <td>PK视频题目(管低质5以内运算)日清iframe</td>
+      <td>7.0</td>
+      <td>3030</td>
+      <td>21210</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>21210.0</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>2026/05/27 16:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>848</td>
+      <td>21200</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>21200.0</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>2026/05/27 07:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>778</td>
+      <td>19450</td>
+      <td>1</td>
+      <td>0.13</td>
+      <td>19450.0</td>
+    </tr>
+    <tr>
+      <td>任杰07-vw</td>
+      <td>2026/05/27 05:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>766</td>
+      <td>19150</td>
+      <td>1</td>
+      <td>0.13</td>
+      <td>19150.0</td>
+    </tr>
+    <tr>
+      <td>李嘉俊02-vw</td>
+      <td>2026/05/27 16:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>709</td>
+      <td>17725</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>17725.0</td>
+    </tr>
+    <tr>
+      <td>李嘉俊02-vw</td>
+      <td>2026/05/27 17:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>661</td>
+      <td>16525</td>
+      <td>1</td>
+      <td>0.15</td>
+      <td>16525.0</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>2026/05/27 14:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>620</td>
+      <td>15500</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>15500.0</td>
+    </tr>
+    <tr>
+      <td>陈韦红01-vw</td>
+      <td>2026/05/27 18:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>558</td>
+      <td>13950</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>13950.0</td>
+    </tr>
+    <tr>
+      <td>张希彤01-vw</td>
+      <td>2026/05/27 14:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>555</td>
+      <td>13875</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>13875.0</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>2026/05/27 16:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>514</td>
+      <td>12850</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>12850.0</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>2026/05/27 13:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>501</td>
+      <td>12525</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>12525.0</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>2026/05/27 12:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>490</td>
+      <td>12250</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>12250.0</td>
+    </tr>
+    <tr>
+      <td>张希彤01-vw</td>
+      <td>2026/05/27 16:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>477</td>
+      <td>11925</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>11925.0</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>2026/05/27 08:00</td>
+      <td>PU题目打标(iframe)</td>
+      <td>7.0</td>
+      <td>1680</td>
+      <td>11760</td>
+      <td>6</td>
+      <td>0.36</td>
+      <td>11760.0</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>2026/05/27 15:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>436</td>
+      <td>10900</td>
+      <td>1</td>
+      <td>0.23</td>
+      <td>10900.0</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>2026/05/27 15:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>392</td>
+      <td>9800</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>9800.0</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>2026/05/27 13:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>373</td>
+      <td>9325</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>9325.0</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>2026/05/27 08:00</td>
+      <td>PU题目打标(iframe)</td>
+      <td>7.0</td>
+      <td>1328</td>
+      <td>9296</td>
+      <td>2</td>
+      <td>0.15</td>
+      <td>9296.0</td>
+    </tr>
+    <tr>
+      <td>赵悦07-vw</td>
+      <td>2026/05/27 00:00</td>
+      <td>K长文本帖时效4h</td>
+      <td>25.0</td>
+      <td>368</td>
+      <td>9200</td>
+      <td>73</td>
+      <td>19.84</td>
+      <td>9200.0</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>2026/05/27 14:00</td>
+      <td>PK视频-切帧（存量）</td>
+      <td>25.0</td>
+      <td>366</td>
+      <td>9150</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>9150.0</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="card">
+    <h2>规则2：单人单小时换算量合计超标（> 10000.0）<span class="tag">35 组</span></h2>
+    <table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>姓名</th>
+      <th>_hour_int</th>
+      <th>小时换算量合计</th>
+      <th>小时删除量</th>
+      <th>小时审核量</th>
+      <th>小时删除率</th>
+      <th>小时</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>10</td>
+      <td>57702.0</td>
+      <td>1</td>
+      <td>4859</td>
+      <td>0.02</td>
+      <td>10:00</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>7</td>
+      <td>45485.0</td>
+      <td>1</td>
+      <td>4531</td>
+      <td>0.02</td>
+      <td>07:00</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>10</td>
+      <td>43561.0</td>
+      <td>1</td>
+      <td>2647</td>
+      <td>0.04</td>
+      <td>10:00</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>9</td>
+      <td>42368.5</td>
+      <td>25</td>
+      <td>2165</td>
+      <td>1.15</td>
+      <td>09:00</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>10</td>
+      <td>41704.0</td>
+      <td>17</td>
+      <td>2309</td>
+      <td>0.74</td>
+      <td>10:00</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>10</td>
+      <td>39020.5</td>
+      <td>26</td>
+      <td>2083</td>
+      <td>1.25</td>
+      <td>10:00</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>9</td>
+      <td>27386.0</td>
+      <td>19</td>
+      <td>1419</td>
+      <td>1.34</td>
+      <td>09:00</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>16</td>
+      <td>26164.5</td>
+      <td>10</td>
+      <td>1181</td>
+      <td>0.85</td>
+      <td>16:00</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>9</td>
+      <td>26013.0</td>
+      <td>0</td>
+      <td>1297</td>
+      <td>0.00</td>
+      <td>09:00</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>13</td>
+      <td>25936.0</td>
+      <td>63</td>
+      <td>1191</td>
+      <td>5.29</td>
+      <td>13:00</td>
+    </tr>
+    <tr>
+      <td>陈韦红01-vw</td>
+      <td>17</td>
+      <td>25042.5</td>
+      <td>9</td>
+      <td>1097</td>
+      <td>0.82</td>
+      <td>17:00</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>16</td>
+      <td>23817.5</td>
+      <td>0</td>
+      <td>1028</td>
+      <td>0.00</td>
+      <td>16:00</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>9</td>
+      <td>23028.0</td>
+      <td>6</td>
+      <td>1082</td>
+      <td>0.55</td>
+      <td>09:00</td>
+    </tr>
+    <tr>
+      <td>任杰07-vw</td>
+      <td>5</td>
+      <td>19922.5</td>
+      <td>36</td>
+      <td>904</td>
+      <td>3.98</td>
+      <td>05:00</td>
+    </tr>
+    <tr>
+      <td>李嘉俊02-vw</td>
+      <td>16</td>
+      <td>19030.5</td>
+      <td>10</td>
+      <td>891</td>
+      <td>1.12</td>
+      <td>16:00</td>
+    </tr>
+    <tr>
+      <td>李嘉俊02-vw</td>
+      <td>17</td>
+      <td>17665.0</td>
+      <td>28</td>
+      <td>865</td>
+      <td>3.24</td>
+      <td>17:00</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>12</td>
+      <td>17367.0</td>
+      <td>40</td>
+      <td>1211</td>
+      <td>3.30</td>
+      <td>12:00</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>14</td>
+      <td>17010.0</td>
+      <td>47</td>
+      <td>852</td>
+      <td>5.52</td>
+      <td>14:00</td>
+    </tr>
+    <tr>
+      <td>张希彤01-vw</td>
+      <td>14</td>
+      <td>15485.5</td>
+      <td>169</td>
+      <td>839</td>
+      <td>20.14</td>
+      <td>14:00</td>
+    </tr>
+    <tr>
+      <td>陈韦红01-vw</td>
+      <td>18</td>
+      <td>14481.0</td>
+      <td>15</td>
+      <td>666</td>
+      <td>2.25</td>
+      <td>18:00</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>13</td>
+      <td>14249.5</td>
+      <td>0</td>
+      <td>728</td>
+      <td>0.00</td>
+      <td>13:00</td>
+    </tr>
+    <tr>
+      <td>任杰07-vw</td>
+      <td>6</td>
+      <td>13647.5</td>
+      <td>150</td>
+      <td>1157</td>
+      <td>12.96</td>
+      <td>06:00</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>15</td>
+      <td>13422.0</td>
+      <td>2</td>
+      <td>877</td>
+      <td>0.23</td>
+      <td>15:00</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>16</td>
+      <td>13245.5</td>
+      <td>4</td>
+      <td>566</td>
+      <td>0.71</td>
+      <td>16:00</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>8</td>
+      <td>12880.0</td>
+      <td>33</td>
+      <td>987</td>
+      <td>3.34</td>
+      <td>08:00</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>15</td>
+      <td>12587.0</td>
+      <td>70</td>
+      <td>724</td>
+      <td>9.67</td>
+      <td>15:00</td>
+    </tr>
+    <tr>
+      <td>张希彤01-vw</td>
+      <td>16</td>
+      <td>12480.5</td>
+      <td>63</td>
+      <td>587</td>
+      <td>10.73</td>
+      <td>16:00</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>8</td>
+      <td>12092.0</td>
+      <td>18</td>
+      <td>1755</td>
+      <td>1.03</td>
+      <td>08:00</td>
+    </tr>
+    <tr>
+      <td>程昌宇01-vw</td>
+      <td>10</td>
+      <td>12026.0</td>
+      <td>3</td>
+      <td>1083</td>
+      <td>0.28</td>
+      <td>10:00</td>
+    </tr>
+    <tr>
+      <td>任杰07-vw</td>
+      <td>7</td>
+      <td>11927.0</td>
+      <td>189</td>
+      <td>1202</td>
+      <td>15.72</td>
+      <td>07:00</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>14</td>
+      <td>11852.5</td>
+      <td>4</td>
+      <td>750</td>
+      <td>0.53</td>
+      <td>14:00</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>8</td>
+      <td>11626.0</td>
+      <td>55</td>
+      <td>1612</td>
+      <td>3.41</td>
+      <td>08:00</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>13</td>
+      <td>10953.0</td>
+      <td>124</td>
+      <td>841</td>
+      <td>14.74</td>
+      <td>13:00</td>
+    </tr>
+    <tr>
+      <td>胡亦龙01-vw</td>
+      <td>10</td>
+      <td>10284.0</td>
+      <td>6</td>
+      <td>1025</td>
+      <td>0.59</td>
+      <td>10:00</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>13</td>
+      <td>10079.5</td>
+      <td>42</td>
+      <td>698</td>
+      <td>6.02</td>
+      <td>13:00</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="card">
+    <h2>规则3：单人全天换算量超标（> 75000.0）<span class="tag">4 人</span></h2>
+    <table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>姓名</th>
+      <th>全天换算量</th>
+      <th>全天审核量</th>
+      <th>全天删除量</th>
+      <th>全天删除率</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>205938.5</td>
+      <td>15518</td>
+      <td>162</td>
+      <td>1.04</td>
+    </tr>
+    <tr>
+      <td>廖家丽03-vw</td>
+      <td>170355.5</td>
+      <td>10518</td>
+      <td>123</td>
+      <td>1.17</td>
+    </tr>
+    <tr>
+      <td>雷晓娟01-vw</td>
+      <td>136554.0</td>
+      <td>7306</td>
+      <td>337</td>
+      <td>4.61</td>
+    </tr>
+    <tr>
+      <td>陈闻达03-vw</td>
+      <td>120738.0</td>
+      <td>7781</td>
+      <td>267</td>
+      <td>3.43</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="footer">自动生成 by 审核异常检测 Skill</div>
+</div>
+</body>
+</html>
