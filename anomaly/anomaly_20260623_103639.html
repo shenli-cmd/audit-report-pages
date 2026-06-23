@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>审核异常检测报告 2026-06-22</title>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "PingFang SC", "Microsoft YaHei", sans-serif; background: #f0f2f5; color: #333; padding: 20px; }
+.container { max-width: 1200px; margin: 0 auto; }
+.header { background: linear-gradient(135deg, #ff4d4f, #ff7a45); color: #fff; padding: 30px; border-radius: 12px; margin-bottom: 24px; }
+.header h1 { font-size: 24px; margin-bottom: 8px; }
+.header .meta { opacity: 0.9; font-size: 14px; }
+.stats { display: flex; gap: 16px; margin-bottom: 24px; }
+.stat-card { background: #fff; padding: 20px 24px; border-radius: 10px; flex: 1; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.stat-card .label { color: #888; font-size: 13px; margin-bottom: 6px; }
+.stat-card .value { font-size: 28px; font-weight: 700; }
+.stat-card .value.danger { color: #ff4d4f; }
+.stat-card .value.warning { color: #fa8c16; }
+.stat-card .value.info { color: #1890ff; }
+.stat-card .value.purple { color: #722ed1; }
+.card { background: #fff; border-radius: 10px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.08); }
+.card h2 { font-size: 18px; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #f0f0f0; }
+.card h2 .tag { display: inline-block; background: #fff2f0; color: #ff4d4f; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 8px; font-weight: 400; }
+.ok { color: #52c41a; font-size: 15px; padding: 20px 0; }
+.data-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+.data-table th { background: #fafafa; padding: 10px 12px; text-align: left; font-weight: 600; color: #555; border-bottom: 2px solid #e8e8e8; white-space: nowrap; }
+.data-table td { padding: 10px 12px; border-bottom: 1px solid #f0f0f0; }
+.data-table tr:hover { background: #fafafa; }
+.data-table .danger-row td { background: #fff2f0; }
+.section-detail { margin-bottom: 24px; }
+.section h3 { font-size: 15px; color: #555; margin-bottom: 8px; }
+.footer { text-align: center; color: #999; font-size: 12px; padding: 20px 0; }
+</style>
+</head>
+<body>
+<div class="container">
+  <div class="header">
+    <h1>🚨 审核异常检测报告</h1>
+    <div class="meta">检测时间：2026-06-23 10:36 &nbsp;|&nbsp; 数据日期：2026-06-22 &nbsp;|&nbsp; 规则1阈值：>9000 &nbsp;|&nbsp; 规则2阈值：>10000 &nbsp;|&nbsp; 规则3阈值：>75000</div>
+  </div>
+
+  <div class="stats">
+    <div class="stat-card">
+      <div class="label">异常人员数量</div>
+      <div class="value info">5</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">规则1 异常条数</div>
+      <div class="value danger">5</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">规则2 异常组合数</div>
+      <div class="value warning">6</div>
+    </div>
+    <div class="stat-card">
+      <div class="label">规则3 全天超标人数</div>
+      <div class="value purple">0</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>规则1：单条换算量超标（> 9000）<span class="tag">5 条</span></h2>
+    <table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>姓名</th>
+      <th>时间</th>
+      <th>审核区名称</th>
+      <th>系数</th>
+      <th>审核量</th>
+      <th>换算审核量</th>
+      <th>删除量</th>
+      <th>删除率</th>
+      <th>换算量</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>杨飞腾01-vw</td>
+      <td>2026/06/22 23:00</td>
+      <td>K长文本帖时效4h</td>
+      <td>25.0</td>
+      <td>660</td>
+      <td>16500</td>
+      <td>181</td>
+      <td>27.42</td>
+      <td>16500.0</td>
+    </tr>
+    <tr>
+      <td>杨飞腾01-vw</td>
+      <td>2026/06/22 20:00</td>
+      <td>K长文本帖时效4h</td>
+      <td>25.0</td>
+      <td>470</td>
+      <td>11750</td>
+      <td>159</td>
+      <td>33.83</td>
+      <td>11750.0</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>2026/06/22 17:00</td>
+      <td>PK题目（iframe）</td>
+      <td>7.0</td>
+      <td>1579</td>
+      <td>11053</td>
+      <td>0</td>
+      <td>0.00</td>
+      <td>11053.0</td>
+    </tr>
+    <tr>
+      <td>任杰07-vw</td>
+      <td>2026/06/22 18:00</td>
+      <td>PK视频题目(管低质5以内运算）iframe时效1h</td>
+      <td>7.0</td>
+      <td>1421</td>
+      <td>9947</td>
+      <td>3</td>
+      <td>0.21</td>
+      <td>9947.0</td>
+    </tr>
+    <tr>
+      <td>杨飞腾01-vw</td>
+      <td>2026/06/22 22:00</td>
+      <td>K长文本帖时效4h</td>
+      <td>25.0</td>
+      <td>370</td>
+      <td>9250</td>
+      <td>119</td>
+      <td>32.16</td>
+      <td>9250.0</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="card">
+    <h2>规则2：单人单小时换算量合计超标（> 10000）<span class="tag">6 组</span></h2>
+    <table class="dataframe data-table">
+  <thead>
+    <tr style="text-align: right;">
+      <th>姓名</th>
+      <th>_hour_int</th>
+      <th>小时换算量合计</th>
+      <th>小时删除量</th>
+      <th>小时审核量</th>
+      <th>小时删除率</th>
+      <th>小时</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>杨飞腾01-vw</td>
+      <td>23</td>
+      <td>16500.0</td>
+      <td>181</td>
+      <td>660</td>
+      <td>27.42</td>
+      <td>23:00</td>
+    </tr>
+    <tr>
+      <td>郑钰洁01-vw</td>
+      <td>17</td>
+      <td>13425.5</td>
+      <td>105</td>
+      <td>1966</td>
+      <td>5.34</td>
+      <td>17:00</td>
+    </tr>
+    <tr>
+      <td>周涛01-vw</td>
+      <td>18</td>
+      <td>12691.5</td>
+      <td>56</td>
+      <td>1420</td>
+      <td>3.94</td>
+      <td>18:00</td>
+    </tr>
+    <tr>
+      <td>杨飞腾01-vw</td>
+      <td>20</td>
+      <td>11750.0</td>
+      <td>159</td>
+      <td>470</td>
+      <td>33.83</td>
+      <td>20:00</td>
+    </tr>
+    <tr>
+      <td>任杰07-vw</td>
+      <td>18</td>
+      <td>10899.0</td>
+      <td>86</td>
+      <td>1529</td>
+      <td>5.62</td>
+      <td>18:00</td>
+    </tr>
+    <tr>
+      <td>李达玮01-vw</td>
+      <td>22</td>
+      <td>10293.0</td>
+      <td>671</td>
+      <td>2477</td>
+      <td>27.09</td>
+      <td>22:00</td>
+    </tr>
+  </tbody>
+</table>
+  </div>
+
+  <div class="card">
+    <h2>规则3：单人全天换算量超标（> 75000）<span class="tag">0 人</span></h2>
+    <p class="ok">✅ 无超标人员</p>
+  </div>
+
+  <div class="footer">自动生成 by 审核异常检测 Skill</div>
+</div>
+</body>
+</html>
