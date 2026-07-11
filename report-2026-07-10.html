@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>vw人员审核日报</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f6fa; color: #333; }
+  .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
+
+  .header { text-align: center; margin-bottom: 32px; }
+  .header h1 { font-size: 28px; color: #1a1a2e; margin-bottom: 6px; }
+  .header p { color: #888; font-size: 14px; }
+  .header .date-badge { display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 20px; border-radius: 20px; font-size: 15px; margin-top: 8px; }
+
+  .summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
+  .card { background: white; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .card .value { font-size: 28px; font-weight: 700; color: #1a1a2e; }
+  .card .label { font-size: 13px; color: #999; margin-top: 4px; }
+  .card.red .value { color: #e74c3c; }
+  .card.green .value { color: #27ae60; }
+  .card.blue .value { color: #2980b9; }
+
+  .section-title { font-size: 18px; color: #1a1a2e; margin-bottom: 16px; padding-left: 12px; border-left: 4px solid #667eea; }
+  .section { margin-bottom: 36px; }
+
+  table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  thead th { background: #f8f9fc; padding: 14px 16px; text-align: left; font-size: 13px; color: #666; font-weight: 500; border-bottom: 1px solid #eee; }
+  thead th:not(:first-child) { text-align: right; }
+  tbody td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid #f5f5f5; }
+  tbody td:not(:first-child) { text-align: right; font-family: 'Monaco', 'Consolas', monospace; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #f8f9fc; }
+
+  .tag-danger { background: #fee; color: #c0392b; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 6px; }
+  .tag-warning { background: #fff3cd; color: #856404; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 6px; }
+
+  .person-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
+  .person-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
+  .person-name { font-size: 17px; font-weight: 600; color: #1a1a2e; }
+  .person-meta { font-size: 13px; color: #888; }
+  .person-stats { display: flex; gap: 24px; }
+  .person-stat { text-align: center; }
+  .person-stat .val { font-size: 20px; font-weight: 700; }
+  .person-stat .lbl { font-size: 12px; color: #999; }
+
+  .area-list { display: flex; flex-direction: column; gap: 8px; }
+  .area-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #f8f9fc; border-radius: 8px; font-size: 14px; }
+  .area-item .area-name { color: #333; font-weight: 500; }
+  .area-item .area-right { display: flex; align-items: center; gap: 12px; }
+  .area-item .area-count { color: #666; font-family: 'Monaco', 'Consolas', monospace; }
+
+  .progress-bar { height: 6px; background: #eee; border-radius: 3px; margin-top: 6px; overflow: hidden; }
+  .progress-bar .fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
+
+  .footer { text-align: center; color: #ccc; font-size: 12px; margin-top: 40px; padding: 20px; }
+
+  @media (max-width: 640px) {
+    .summary-cards { grid-template-columns: repeat(2, 1fr); }
+    table { font-size: 12px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <div class="header">
+    <h1>vw人员审核日报</h1>
+    <div class="date-badge" id="reportDate">加载中...</div>
+    <p>数据来源：各业务线分天审核数据</p>
+  </div>
+
+  <!-- 整体汇总卡片 -->
+  <div class="summary-cards">
+    <div class="card blue">
+      <div class="value" id="totalAudit">-</div>
+      <div class="label">总审核量</div>
+    </div>
+    <div class="card green">
+      <div class="value" id="totalPass">-</div>
+      <div class="label">通过量</div>
+    </div>
+    <div class="card red">
+      <div class="value" id="totalDel">-</div>
+      <div class="label">删除量</div>
+    </div>
+    <div class="card">
+      <div class="value" id="totalPeople">-</div>
+      <div class="label">涉及人员</div>
+    </div>
+  </div>
+
+  <!-- 各人员总量表 -->
+  <div class="section">
+    <div class="section-title">各vw人员总量汇总</div>
+    <table id="summaryTable">
+      <thead>
+        <tr>
+          <th>审核人</th>
+          <th>审核量</th>
+          <th>通过量</th>
+          <th>删除量</th>
+          <th>删除率</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <!-- 各审核区明细 -->
+  <div class="section">
+    <div class="section-title">各vw人员各审核区明细</div>
+    <div id="detailContainer"></div>
+  </div>
+
+  <div class="footer">
+    本报告由 WorkBuddy 自动生成 · 数据每日更新
+  </div>
+</div>
+
+<script>
+const DATA = {"monthDay": "7月10日", "date": "2026-07-10", "totalAudit": 109281, "totalPass": 83036, "totalDel": 26245, "totalPassRate": 75.98, "totalDelRate": 24.02, "summary": [{"姓名": "郑钰洁01-vw", "totalAudit": 10307, "totalPass": 8754, "totalDel": 1553, "totalDelRate": 15.07}, {"姓名": "彭慧杰01-vw", "totalAudit": 9410, "totalPass": 5911, "totalDel": 3499, "totalDelRate": 37.18}, {"姓名": "兰悦洋01-vw", "totalAudit": 9190, "totalPass": 7116, "totalDel": 2074, "totalDelRate": 22.57}, {"姓名": "李嘉俊02-vw", "totalAudit": 7325, "totalPass": 6095, "totalDel": 1230, "totalDelRate": 16.79}, {"姓名": "尔古拉尾01-vw", "totalAudit": 7224, "totalPass": 4243, "totalDel": 2981, "totalDelRate": 41.27}, {"姓名": "罗小雨01-vw", "totalAudit": 7081, "totalPass": 5667, "totalDel": 1414, "totalDelRate": 19.97}, {"姓名": "颜小丽01-vw", "totalAudit": 6018, "totalPass": 4367, "totalDel": 1651, "totalDelRate": 27.43}, {"姓名": "程昌宇01-vw", "totalAudit": 5429, "totalPass": 4596, "totalDel": 833, "totalDelRate": 15.34}, {"姓名": "周小锋02-vw", "totalAudit": 4856, "totalPass": 3255, "totalDel": 1601, "totalDelRate": 32.97}, {"姓名": "赖宇01-vw", "totalAudit": 4736, "totalPass": 2859, "totalDel": 1877, "totalDelRate": 39.63}, {"姓名": "雷晓娟01-vw", "totalAudit": 4306, "totalPass": 3245, "totalDel": 1061, "totalDelRate": 24.64}, {"姓名": "李达玮01-vw", "totalAudit": 4093, "totalPass": 3322, "totalDel": 771, "totalDelRate": 18.84}, {"姓名": "张希彤01-vw", "totalAudit": 3379, "totalPass": 2427, "totalDel": 952, "totalDelRate": 28.17}, {"姓名": "周杨萍01-vw", "totalAudit": 2786, "totalPass": 2573, "totalDel": 213, "totalDelRate": 7.65}, {"姓名": "冉雯雯02-vw", "totalAudit": 2645, "totalPass": 2123, "totalDel": 522, "totalDelRate": 19.74}, {"姓名": "何永森03-vw", "totalAudit": 2466, "totalPass": 1888, "totalDel": 578, "totalDelRate": 23.44}, {"姓名": "付宇03-vw", "totalAudit": 2325, "totalPass": 2164, "totalDel": 161, "totalDelRate": 6.92}, {"姓名": "陈韦红01-vw", "totalAudit": 1943, "totalPass": 1666, "totalDel": 277, "totalDelRate": 14.26}, {"姓名": "胥廷圻01-vw", "totalAudit": 1854, "totalPass": 1681, "totalDel": 173, "totalDelRate": 9.33}, {"姓名": "付渝单03-vw", "totalAudit": 1824, "totalPass": 1466, "totalDel": 358, "totalDelRate": 19.63}, {"姓名": "陈雪05-vw", "totalAudit": 1755, "totalPass": 1097, "totalDel": 658, "totalDelRate": 37.49}, {"姓名": "罗航01-vw", "totalAudit": 1656, "totalPass": 1431, "totalDel": 225, "totalDelRate": 13.59}, {"姓名": "陈闻达03-vw", "totalAudit": 1616, "totalPass": 1382, "totalDel": 234, "totalDelRate": 14.48}, {"姓名": "李昌勇01-vw", "totalAudit": 1599, "totalPass": 957, "totalDel": 642, "totalDelRate": 40.15}, {"姓名": "杨鸿02-vw", "totalAudit": 1431, "totalPass": 1049, "totalDel": 382, "totalDelRate": 26.69}, {"姓名": "黄俊傑02-vw", "totalAudit": 973, "totalPass": 811, "totalDel": 162, "totalDelRate": 16.65}, {"姓名": "敖鑫宇01-vw", "totalAudit": 942, "totalPass": 795, "totalDel": 147, "totalDelRate": 15.61}, {"姓名": "周铭杰01-vw", "totalAudit": 112, "totalPass": 96, "totalDel": 16, "totalDelRate": 14.29}], "detail_by_person": [{"name": "郑钰洁01-vw", "totalAudit": 10307, "totalPass": 8754, "totalDel": 1553, "totalDelRate": 15.07, "areas": [{"area": "k评论审核区", "count": 6649, "del": 1009, "delRate": 15.18}, {"area": "CK社区二级评论时效15min", "count": 1052, "del": 92, "delRate": 8.75}, {"area": "成人图文区", "count": 973, "del": 185, "delRate": 19.01}, {"area": "k图文区", "count": 440, "del": 148, "delRate": 33.64}, {"area": "PK题目(iframe)", "count": 429, "del": 0, "delRate": 0.0}, {"area": "CK社区一级评论时效15min", "count": 307, "del": 109, "delRate": 35.5}, {"area": "成人视频审核区", "count": 186, "del": 1, "delRate": 0.54}, {"area": "试卷征集时效1h", "count": 87, "del": 1, "delRate": 1.15}, {"area": "成人昵称", "count": 74, "del": 5, "delRate": 6.76}, {"area": "PK试卷时效30min", "count": 42, "del": 1, "delRate": 2.38}, {"area": "PK题目时效1h", "count": 31, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 14, "del": 0, "delRate": 0.0}, {"area": "成人评论", "count": 12, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 7, "del": 0, "delRate": 0.0}, {"area": "PKvip提问5min", "count": 2, "del": 2, "delRate": 100.0}, {"area": "PK试卷iframe", "count": 1, "del": 0, "delRate": 0.0}, {"area": "k昵称", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "彭慧杰01-vw", "totalAudit": 9410, "totalPass": 5911, "totalDel": 3499, "totalDelRate": 37.18, "areas": [{"area": "CK社区图文帖时效10min", "count": 2644, "del": 2456, "delRate": 92.89}, {"area": "PK题目(iframe)", "count": 1872, "del": 0, "delRate": 0.0}, {"area": "CK社区二级评论时效15min", "count": 1741, "del": 579, "delRate": 33.26}, {"area": "PK试卷时效30min", "count": 768, "del": 0, "delRate": 0.0}, {"area": "CK社区一级评论时效15min", "count": 639, "del": 411, "delRate": 64.32}, {"area": "试卷征集时效1h", "count": 629, "del": 0, "delRate": 0.0}, {"area": "成人图文区", "count": 496, "del": 4, "delRate": 0.81}, {"area": "k评论审核区", "count": 205, "del": 41, "delRate": 20.0}, {"area": "成人视频审核区", "count": 123, "del": 0, "delRate": 0.0}, {"area": "PK题目时效1h", "count": 121, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 96, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 47, "del": 2, "delRate": 4.26}, {"area": "成人昵称", "count": 15, "del": 3, "delRate": 20.0}, {"area": "k文件审核区", "count": 10, "del": 0, "delRate": 0.0}, {"area": "k昵称", "count": 2, "del": 2, "delRate": 100.0}, {"area": "k图文视频", "count": 1, "del": 1, "delRate": 100.0}, {"area": "成人评论", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "兰悦洋01-vw", "totalAudit": 9190, "totalPass": 7116, "totalDel": 2074, "totalDelRate": 22.57, "areas": [{"area": "k评论审核区", "count": 2957, "del": 466, "delRate": 15.76}, {"area": "CK社区二级评论时效15min", "count": 2371, "del": 295, "delRate": 12.44}, {"area": "CK社区图文帖时效10min", "count": 957, "del": 768, "delRate": 80.25}, {"area": "k昵称", "count": 894, "del": 305, "delRate": 34.12}, {"area": "CK社区一级评论时效15min", "count": 854, "del": 229, "delRate": 26.81}, {"area": "PK题目(iframe)", "count": 585, "del": 0, "delRate": 0.0}, {"area": "K封面图审核区", "count": 146, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 128, "del": 0, "delRate": 0.0}, {"area": "PK题目时效1h", "count": 116, "del": 2, "delRate": 1.72}, {"area": "PK试卷iframe", "count": 66, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 52, "del": 2, "delRate": 3.85}, {"area": "PK试卷1", "count": 16, "del": 0, "delRate": 0.0}, {"area": "AI昵称", "count": 15, "del": 1, "delRate": 6.67}, {"area": "成人图文区", "count": 11, "del": 2, "delRate": 18.18}, {"area": "PK试卷时效30min", "count": 9, "del": 0, "delRate": 0.0}, {"area": "PKvip提问5min", "count": 4, "del": 4, "delRate": 100.0}, {"area": "PK题目时效20min", "count": 4, "del": 0, "delRate": 0.0}, {"area": "试卷征集时效1h", "count": 4, "del": 0, "delRate": 0.0}, {"area": "成人昵称", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "李嘉俊02-vw", "totalAudit": 7325, "totalPass": 6095, "totalDel": 1230, "totalDelRate": 16.79, "areas": [{"area": "k评论审核区", "count": 3919, "del": 686, "delRate": 17.5}, {"area": "CK社区二级评论时效15min", "count": 1670, "del": 252, "delRate": 15.09}, {"area": "k昵称", "count": 657, "del": 95, "delRate": 14.46}, {"area": "CK社区一级评论时效15min", "count": 547, "del": 161, "delRate": 29.43}, {"area": "PK题目(iframe)", "count": 426, "del": 0, "delRate": 0.0}, {"area": "CK社区图文帖时效10min", "count": 54, "del": 35, "delRate": 64.81}, {"area": "AI昵称", "count": 21, "del": 1, "delRate": 4.76}, {"area": "PK试卷时效30min", "count": 21, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 10, "del": 0, "delRate": 0.0}]}, {"name": "尔古拉尾01-vw", "totalAudit": 7224, "totalPass": 4243, "totalDel": 2981, "totalDelRate": 41.27, "areas": [{"area": "CK社区图文帖时效10min", "count": 1892, "del": 1311, "delRate": 69.29}, {"area": "CK社区二级评论时效15min", "count": 1415, "del": 703, "delRate": 49.68}, {"area": "k评论审核区", "count": 1314, "del": 274, "delRate": 20.85}, {"area": "k图文区", "count": 759, "del": 247, "delRate": 32.54}, {"area": "PK题目(iframe)", "count": 633, "del": 1, "delRate": 0.16}, {"area": "CK社区一级评论时效15min", "count": 402, "del": 284, "delRate": 70.65}, {"area": "k图文视频", "count": 183, "del": 108, "delRate": 59.02}, {"area": "k昵称", "count": 176, "del": 51, "delRate": 28.98}, {"area": "PK试卷iframe", "count": 158, "del": 0, "delRate": 0.0}, {"area": "试卷征集时效1h", "count": 144, "del": 0, "delRate": 0.0}, {"area": "PK试卷时效30min", "count": 75, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 24, "del": 0, "delRate": 0.0}, {"area": "成人图文区", "count": 23, "del": 2, "delRate": 8.7}, {"area": "PKvip提问时效5min", "count": 10, "del": 0, "delRate": 0.0}, {"area": "PK题目时效20min", "count": 8, "del": 0, "delRate": 0.0}, {"area": "PK题目时效1h", "count": 7, "del": 0, "delRate": 0.0}, {"area": "AI昵称", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "罗小雨01-vw", "totalAudit": 7081, "totalPass": 5667, "totalDel": 1414, "totalDelRate": 19.97, "areas": [{"area": "k评论审核区", "count": 4697, "del": 801, "delRate": 17.05}, {"area": "k昵称", "count": 986, "del": 177, "delRate": 17.95}, {"area": "k图文区", "count": 735, "del": 203, "delRate": 27.62}, {"area": "CK社区图文帖时效10min", "count": 367, "del": 204, "delRate": 55.59}, {"area": "成人图文区", "count": 173, "del": 27, "delRate": 15.61}, {"area": "AI昵称", "count": 63, "del": 2, "delRate": 3.17}, {"area": "成人昵称", "count": 22, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 18, "del": 0, "delRate": 0.0}, {"area": "K评论时效2h", "count": 7, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 4, "del": 0, "delRate": 0.0}, {"area": "PK题目(iframe)", "count": 4, "del": 0, "delRate": 0.0}, {"area": "喵喵机个性签名", "count": 2, "del": 0, "delRate": 0.0}, {"area": "PK题目时效1h", "count": 1, "del": 0, "delRate": 0.0}, {"area": "k文件审核区", "count": 1, "del": 0, "delRate": 0.0}, {"area": "成人评论", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "颜小丽01-vw", "totalAudit": 6018, "totalPass": 4367, "totalDel": 1651, "totalDelRate": 27.43, "areas": [{"area": "CK社区二级评论时效15min", "count": 2282, "del": 980, "delRate": 42.94}, {"area": "k评论审核区", "count": 966, "del": 106, "delRate": 10.97}, {"area": "CK社区一级评论时效15min", "count": 677, "del": 373, "delRate": 55.1}, {"area": "PK题目(iframe)", "count": 433, "del": 0, "delRate": 0.0}, {"area": "k昵称", "count": 410, "del": 113, "delRate": 27.56}, {"area": "K封面图审核区", "count": 247, "del": 0, "delRate": 0.0}, {"area": "PK题目时效1h", "count": 193, "del": 1, "delRate": 0.52}, {"area": "PK试卷时效30min", "count": 180, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 139, "del": 0, "delRate": 0.0}, {"area": "k图文区", "count": 128, "del": 13, "delRate": 10.16}, {"area": "CK社区图文帖时效10min", "count": 94, "del": 59, "delRate": 62.77}, {"area": "试卷征集时效1h", "count": 70, "del": 1, "delRate": 1.43}, {"area": "PK试卷iframe", "count": 44, "del": 0, "delRate": 0.0}, {"area": "成人视频审核区", "count": 36, "del": 0, "delRate": 0.0}, {"area": "成人图文区", "count": 35, "del": 1, "delRate": 2.86}, {"area": "成人昵称", "count": 34, "del": 4, "delRate": 11.76}, {"area": "PKvip提问时效5min", "count": 23, "del": 0, "delRate": 0.0}, {"area": "PK视频-切帧（增量）时效1h", "count": 15, "del": 0, "delRate": 0.0}, {"area": "AI昵称", "count": 12, "del": 0, "delRate": 0.0}]}, {"name": "程昌宇01-vw", "totalAudit": 5429, "totalPass": 4596, "totalDel": 833, "totalDelRate": 15.34, "areas": [{"area": "CK社区二级评论时效15min", "count": 1951, "del": 190, "delRate": 9.74}, {"area": "k昵称", "count": 998, "del": 440, "delRate": 44.09}, {"area": "PK题目(iframe)", "count": 912, "del": 0, "delRate": 0.0}, {"area": "CK社区一级评论时效15min", "count": 761, "del": 135, "delRate": 17.74}, {"area": "k评论审核区", "count": 355, "del": 62, "delRate": 17.46}, {"area": "PK试卷iframe", "count": 167, "del": 2, "delRate": 1.2}, {"area": "PK试卷时效30min", "count": 135, "del": 0, "delRate": 0.0}, {"area": "PK题目时效1h", "count": 49, "del": 0, "delRate": 0.0}, {"area": "AI昵称", "count": 24, "del": 3, "delRate": 12.5}, {"area": "成人图文区", "count": 23, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 21, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 17, "del": 1, "delRate": 5.88}, {"area": "PK题目时效20min", "count": 11, "del": 0, "delRate": 0.0}, {"area": "成人视频审核区", "count": 4, "del": 0, "delRate": 0.0}, {"area": "成人昵称", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "周小锋02-vw", "totalAudit": 4856, "totalPass": 3255, "totalDel": 1601, "totalDelRate": 32.97, "areas": [{"area": "k评论审核区", "count": 1174, "del": 336, "delRate": 28.62}, {"area": "k昵称", "count": 1155, "del": 550, "delRate": 47.62}, {"area": "CK社区图文帖时效10min", "count": 605, "del": 505, "delRate": 83.47}, {"area": "CK社区二级评论时效15min", "count": 597, "del": 113, "delRate": 18.93}, {"area": "PK题目(iframe)", "count": 500, "del": 5, "delRate": 1.0}, {"area": "PK试卷时效30min", "count": 367, "del": 4, "delRate": 1.09}, {"area": "CK社区一级评论时效15min", "count": 242, "del": 88, "delRate": 36.36}, {"area": "PKvip回答时效5min", "count": 64, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 61, "del": 0, "delRate": 0.0}, {"area": "PK题目时效1h", "count": 49, "del": 0, "delRate": 0.0}, {"area": "PK试卷iframe", "count": 22, "del": 0, "delRate": 0.0}, {"area": "试卷征集时效1h", "count": 14, "del": 0, "delRate": 0.0}, {"area": "PKvip提问5min", "count": 3, "del": 0, "delRate": 0.0}, {"area": "K评论时效2h", "count": 2, "del": 0, "delRate": 0.0}, {"area": "成人昵称", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "赖宇01-vw", "totalAudit": 4736, "totalPass": 2859, "totalDel": 1877, "totalDelRate": 39.63, "areas": [{"area": "CK社区二级评论时效15min", "count": 1480, "del": 419, "delRate": 28.31}, {"area": "k评论审核区", "count": 1124, "del": 694, "delRate": 61.74}, {"area": "CK社区一级评论时效15min", "count": 1081, "del": 544, "delRate": 50.32}, {"area": "PK题目(iframe)", "count": 225, "del": 1, "delRate": 0.44}, {"area": "PKvip回答时效5min", "count": 198, "del": 0, "delRate": 0.0}, {"area": "KAI业务时效30min", "count": 156, "del": 86, "delRate": 55.13}, {"area": "k图文区", "count": 126, "del": 70, "delRate": 55.56}, {"area": "PKvip提问时效5min", "count": 100, "del": 0, "delRate": 0.0}, {"area": "试卷征集时效1h", "count": 76, "del": 0, "delRate": 0.0}, {"area": "k图文视频", "count": 64, "del": 60, "delRate": 93.75}, {"area": "K封面图审核区", "count": 49, "del": 0, "delRate": 0.0}, {"area": "PK视频-切帧（增量）时效1h", "count": 21, "del": 0, "delRate": 0.0}, {"area": "PK试卷iframe", "count": 19, "del": 0, "delRate": 0.0}, {"area": "成人图文区", "count": 11, "del": 1, "delRate": 9.09}, {"area": "成人视频审核区", "count": 4, "del": 0, "delRate": 0.0}, {"area": "CK社区图文帖时效10min", "count": 2, "del": 2, "delRate": 100.0}]}, {"name": "雷晓娟01-vw", "totalAudit": 4306, "totalPass": 3245, "totalDel": 1061, "totalDelRate": 24.64, "areas": [{"area": "PK视频题目(管低质5以内运算)日清iframe", "count": 650, "del": 0, "delRate": 0.0}, {"area": "CK社区二级评论时效15min", "count": 542, "del": 151, "delRate": 27.86}, {"area": "k评论审核区", "count": 476, "del": 170, "delRate": 35.71}, {"area": "PK题目(iframe)", "count": 463, "del": 6, "delRate": 1.3}, {"area": "k昵称", "count": 294, "del": 108, "delRate": 36.73}, {"area": "k图文区", "count": 285, "del": 100, "delRate": 35.09}, {"area": "CK社区图文帖时效10min", "count": 276, "del": 251, "delRate": 90.94}, {"area": "PK试卷", "count": 275, "del": 6, "delRate": 2.18}, {"area": "K封面图审核区", "count": 243, "del": 0, "delRate": 0.0}, {"area": "k图文视频", "count": 136, "del": 88, "delRate": 64.71}, {"area": "K推荐词审核区", "count": 135, "del": 79, "delRate": 58.52}, {"area": "CK社区一级评论时效15min", "count": 133, "del": 52, "delRate": 39.1}, {"area": "试卷征集时效1h", "count": 84, "del": 0, "delRate": 0.0}, {"area": "K短文本帖时效4h", "count": 53, "del": 24, "delRate": 45.28}, {"area": "k长文本帖时效1h", "count": 48, "del": 13, "delRate": 27.08}, {"area": "PK题目时效1h", "count": 36, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 34, "del": 0, "delRate": 0.0}, {"area": "PK试卷时效30min", "count": 32, "del": 0, "delRate": 0.0}, {"area": "AI昵称", "count": 23, "del": 3, "delRate": 13.04}, {"area": "PKvip回答时效5min", "count": 20, "del": 0, "delRate": 0.0}, {"area": "PK题目", "count": 19, "del": 4, "delRate": 21.05}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 17, "del": 0, "delRate": 0.0}, {"area": "成人图文区", "count": 14, "del": 6, "delRate": 42.86}, {"area": "k文件审核区", "count": 8, "del": 0, "delRate": 0.0}, {"area": "成人视频审核区", "count": 5, "del": 0, "delRate": 0.0}, {"area": "PK视频-切帧（增量）时效1h", "count": 4, "del": 0, "delRate": 0.0}, {"area": "成人昵称", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "李达玮01-vw", "totalAudit": 4093, "totalPass": 3322, "totalDel": 771, "totalDelRate": 18.84, "areas": [{"area": "CK社区二级评论时效15min", "count": 1720, "del": 317, "delRate": 18.43}, {"area": "k评论审核区", "count": 1059, "del": 157, "delRate": 14.83}, {"area": "k昵称", "count": 638, "del": 245, "delRate": 38.4}, {"area": "PK题目(iframe)", "count": 383, "del": 3, "delRate": 0.78}, {"area": "CK社区一级评论时效15min", "count": 111, "del": 49, "delRate": 44.14}, {"area": "PK试卷时效30min", "count": 76, "del": 0, "delRate": 0.0}, {"area": "K封面图审核区", "count": 60, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 21, "del": 0, "delRate": 0.0}, {"area": "PK试卷iframe", "count": 7, "del": 0, "delRate": 0.0}, {"area": "AI昵称", "count": 6, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）", "count": 5, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 4, "del": 0, "delRate": 0.0}, {"area": "PKvip提问5min", "count": 3, "del": 0, "delRate": 0.0}]}, {"name": "张希彤01-vw", "totalAudit": 3379, "totalPass": 2427, "totalDel": 952, "totalDelRate": 28.17, "areas": [{"area": "CK社区二级评论时效15min", "count": 877, "del": 177, "delRate": 20.18}, {"area": "k评论审核区", "count": 560, "del": 155, "delRate": 27.68}, {"area": "CK社区图文帖时效10min", "count": 415, "del": 355, "delRate": 85.54}, {"area": "PK视频题目(管低质5以内运算)日清iframe", "count": 343, "del": 0, "delRate": 0.0}, {"area": "CK社区一级评论时效15min", "count": 247, "del": 63, "delRate": 25.51}, {"area": "PK题目(iframe)", "count": 235, "del": 2, "delRate": 0.85}, {"area": "K封面图审核区", "count": 166, "del": 0, "delRate": 0.0}, {"area": "PK试卷", "count": 156, "del": 1, "delRate": 0.64}, {"area": "成人图文区", "count": 99, "del": 83, "delRate": 83.84}, {"area": "k图文视频", "count": 97, "del": 78, "delRate": 80.41}, {"area": "k昵称", "count": 45, "del": 9, "delRate": 20.0}, {"area": "k图文区", "count": 39, "del": 15, "delRate": 38.46}, {"area": "K短文本帖时效4h", "count": 25, "del": 10, "delRate": 40.0}, {"area": "成人视频审核区", "count": 14, "del": 0, "delRate": 0.0}, {"area": "试卷征集时效1h", "count": 13, "del": 0, "delRate": 0.0}, {"area": "PK题目时效1h", "count": 13, "del": 0, "delRate": 0.0}, {"area": "k长文本帖时效1h", "count": 10, "del": 4, "delRate": 40.0}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 7, "del": 0, "delRate": 0.0}, {"area": "PK视频-切帧（增量）时效1h", "count": 5, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 4, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）", "count": 3, "del": 0, "delRate": 0.0}, {"area": "成人昵称", "count": 3, "del": 0, "delRate": 0.0}, {"area": "AI昵称", "count": 1, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 1, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "周杨萍01-vw", "totalAudit": 2786, "totalPass": 2573, "totalDel": 213, "totalDelRate": 7.65, "areas": [{"area": "编程时效2h", "count": 2038, "del": 190, "delRate": 9.32}, {"area": "编程vip时效15min", "count": 272, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 125, "del": 4, "delRate": 3.2}, {"area": "K封面图审核区", "count": 105, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 81, "del": 14, "delRate": 17.28}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 54, "del": 0, "delRate": 0.0}, {"area": "PK题目时效20min", "count": 42, "del": 1, "delRate": 2.38}, {"area": "PK视频题目(管低质5以内运算）", "count": 39, "del": 0, "delRate": 0.0}, {"area": "PK视频-切帧（增量）时效1h", "count": 18, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 7, "del": 0, "delRate": 0.0}, {"area": "K短文本帖时效4h", "count": 5, "del": 4, "delRate": 80.0}]}, {"name": "冉雯雯02-vw", "totalAudit": 2645, "totalPass": 2123, "totalDel": 522, "totalDelRate": 19.74, "areas": [{"area": "K长文本帖时效4h", "count": 2331, "del": 424, "delRate": 18.19}, {"area": "K短文本帖时效4h", "count": 275, "del": 88, "delRate": 32.0}, {"area": "k长文本帖时效1h", "count": 22, "del": 10, "delRate": 45.45}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 16, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "何永森03-vw", "totalAudit": 2466, "totalPass": 1888, "totalDel": 578, "totalDelRate": 23.44, "areas": [{"area": "K长文本帖时效4h", "count": 759, "del": 156, "delRate": 20.55}, {"area": "K短文本帖时效4h", "count": 474, "del": 205, "delRate": 43.25}, {"area": "k长文本帖时效1h", "count": 239, "del": 97, "delRate": 40.59}, {"area": "试卷征集时效1h", "count": 204, "del": 3, "delRate": 1.47}, {"area": "成人图文区", "count": 122, "del": 3, "delRate": 2.46}, {"area": "成人视频审核区", "count": 111, "del": 0, "delRate": 0.0}, {"area": "CK社区图文帖时效10min", "count": 81, "del": 73, "delRate": 90.12}, {"area": "PK试卷时效30min", "count": 64, "del": 1, "delRate": 1.56}, {"area": "PK题目时效1h", "count": 56, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 51, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 47, "del": 2, "delRate": 4.26}, {"area": "CK社区二级评论时效15min", "count": 47, "del": 7, "delRate": 14.89}, {"area": "PK题目(iframe)", "count": 46, "del": 0, "delRate": 0.0}, {"area": "CK社区一级评论时效15min", "count": 28, "del": 7, "delRate": 25.0}, {"area": "k图文视频", "count": 20, "del": 17, "delRate": 85.0}, {"area": "K封面图审核区", "count": 20, "del": 0, "delRate": 0.0}, {"area": "k评论审核区", "count": 19, "del": 6, "delRate": 31.58}, {"area": "PKvip提问时效5min", "count": 18, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）", "count": 18, "del": 0, "delRate": 0.0}, {"area": "PK题目时效20min", "count": 13, "del": 0, "delRate": 0.0}, {"area": "UK通用审核", "count": 9, "del": 0, "delRate": 0.0}, {"area": "PK视频-切帧（增量）时效1h", "count": 4, "del": 0, "delRate": 0.0}, {"area": "成人评论", "count": 3, "del": 0, "delRate": 0.0}, {"area": "K评论时效2h", "count": 3, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 3, "del": 0, "delRate": 0.0}, {"area": "成人昵称", "count": 3, "del": 0, "delRate": 0.0}, {"area": "k昵称", "count": 2, "del": 1, "delRate": 50.0}, {"area": "PKvip提问5min", "count": 1, "del": 0, "delRate": 0.0}, {"area": "k图文区", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "付宇03-vw", "totalAudit": 2325, "totalPass": 2164, "totalDel": 161, "totalDelRate": 6.92, "areas": [{"area": "编程时效2h", "count": 2010, "del": 141, "delRate": 7.01}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 136, "del": 0, "delRate": 0.0}, {"area": "K长文本帖时效4h", "count": 100, "del": 20, "delRate": 20.0}, {"area": "编程vip时效15min", "count": 55, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）", "count": 20, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 4, "del": 0, "delRate": 0.0}]}, {"name": "陈韦红01-vw", "totalAudit": 1943, "totalPass": 1666, "totalDel": 277, "totalDelRate": 14.26, "areas": [{"area": "K短文本帖时效4h", "count": 349, "del": 125, "delRate": 35.82}, {"area": "k长文本帖时效1h", "count": 280, "del": 82, "delRate": 29.29}, {"area": "CK社区二级评论时效15min", "count": 166, "del": 15, "delRate": 9.04}, {"area": "K长文本帖时效4h", "count": 164, "del": 35, "delRate": 21.34}, {"area": "PK试卷时效30min", "count": 160, "del": 0, "delRate": 0.0}, {"area": "K封面图审核区", "count": 141, "del": 0, "delRate": 0.0}, {"area": "PK题目时效1h", "count": 121, "del": 0, "delRate": 0.0}, {"area": "试卷征集时效1h", "count": 97, "del": 1, "delRate": 1.03}, {"area": "CK社区一级评论时效15min", "count": 93, "del": 12, "delRate": 12.9}, {"area": "PKvip回答时效5min", "count": 87, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 77, "del": 2, "delRate": 2.6}, {"area": "PK视频题目(管低质5以内运算）", "count": 63, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 44, "del": 4, "delRate": 9.09}, {"area": "PK题目(iframe)", "count": 34, "del": 1, "delRate": 2.94}, {"area": "PK视频-切帧（增量）时效1h", "count": 34, "del": 0, "delRate": 0.0}, {"area": "PK题目时效20min", "count": 20, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)日清iframe", "count": 6, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 6, "del": 0, "delRate": 0.0}, {"area": "PKvip提问5min", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "胥廷圻01-vw", "totalAudit": 1854, "totalPass": 1681, "totalDel": 173, "totalDelRate": 9.33, "areas": [{"area": "编程时效2h", "count": 1321, "del": 129, "delRate": 9.77}, {"area": "K长文本帖时效4h", "count": 297, "del": 44, "delRate": 14.81}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 98, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）", "count": 72, "del": 0, "delRate": 0.0}, {"area": "编程vip时效15min", "count": 38, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 28, "del": 0, "delRate": 0.0}]}, {"name": "付渝单03-vw", "totalAudit": 1824, "totalPass": 1466, "totalDel": 358, "totalDelRate": 19.63, "areas": [{"area": "编程时效2h", "count": 1169, "del": 139, "delRate": 11.89}, {"area": "K短文本帖时效4h", "count": 281, "del": 159, "delRate": 56.58}, {"area": "K长文本帖时效4h", "count": 157, "del": 24, "delRate": 15.29}, {"area": "编程vip时效15min", "count": 110, "del": 0, "delRate": 0.0}, {"area": "k长文本帖时效1h", "count": 71, "del": 36, "delRate": 50.7}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 20, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）", "count": 12, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 2, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)日清iframe", "count": 2, "del": 0, "delRate": 0.0}]}, {"name": "陈雪05-vw", "totalAudit": 1755, "totalPass": 1097, "totalDel": 658, "totalDelRate": 37.49, "areas": [{"area": "K长文本帖时效4h", "count": 968, "del": 278, "delRate": 28.72}, {"area": "K短文本帖时效4h", "count": 440, "del": 273, "delRate": 62.05}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 175, "del": 1, "delRate": 0.57}, {"area": "k长文本帖时效1h", "count": 171, "del": 106, "delRate": 61.99}, {"area": "PK视频题目(管低质5以内运算）", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "罗航01-vw", "totalAudit": 1656, "totalPass": 1431, "totalDel": 225, "totalDelRate": 13.59, "areas": [{"area": "编程时效2h", "count": 897, "del": 95, "delRate": 10.59}, {"area": "K长文本帖时效4h", "count": 500, "del": 92, "delRate": 18.4}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 139, "del": 1, "delRate": 0.72}, {"area": "K短文本帖时效4h", "count": 100, "del": 37, "delRate": 37.0}, {"area": "编程vip时效15min", "count": 20, "del": 0, "delRate": 0.0}]}, {"name": "陈闻达03-vw", "totalAudit": 1616, "totalPass": 1382, "totalDel": 234, "totalDelRate": 14.48, "areas": [{"area": "K短文本帖时效4h", "count": 788, "del": 142, "delRate": 18.02}, {"area": "k长文本帖时效1h", "count": 569, "del": 85, "delRate": 14.94}, {"area": "K长文本帖时效4h", "count": 171, "del": 7, "delRate": 4.09}, {"area": "PK视频题目(管低质5以内运算）", "count": 68, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 13, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 7, "del": 0, "delRate": 0.0}]}, {"name": "李昌勇01-vw", "totalAudit": 1599, "totalPass": 957, "totalDel": 642, "totalDelRate": 40.15, "areas": [{"area": "K短文本帖时效4h", "count": 636, "del": 479, "delRate": 75.31}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 627, "del": 1, "delRate": 0.16}, {"area": "k长文本帖时效1h", "count": 210, "del": 146, "delRate": 69.52}, {"area": "PK视频题目(管低质5以内运算）", "count": 78, "del": 0, "delRate": 0.0}, {"area": "K长文本帖时效4h", "count": 27, "del": 16, "delRate": 59.26}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 15, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)日清iframe", "count": 6, "del": 0, "delRate": 0.0}]}, {"name": "杨鸿02-vw", "totalAudit": 1431, "totalPass": 1049, "totalDel": 382, "totalDelRate": 26.69, "areas": [{"area": "K长文本帖时效4h", "count": 1208, "del": 279, "delRate": 23.1}, {"area": "k长文本帖时效1h", "count": 100, "del": 49, "delRate": 49.0}, {"area": "K短文本帖时效4h", "count": 96, "del": 53, "delRate": 55.21}, {"area": "PK视频题目(管低质5以内运算）", "count": 11, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 10, "del": 1, "delRate": 10.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 6, "del": 0, "delRate": 0.0}]}, {"name": "黄俊傑02-vw", "totalAudit": 973, "totalPass": 811, "totalDel": 162, "totalDelRate": 16.65, "areas": [{"area": "K长文本帖时效4h", "count": 862, "del": 129, "delRate": 14.97}, {"area": "k长文本帖时效1h", "count": 50, "del": 20, "delRate": 40.0}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 32, "del": 0, "delRate": 0.0}, {"area": "K短文本帖时效4h", "count": 28, "del": 13, "delRate": 46.43}, {"area": "PK视频题目(管低质5以内运算)日清iframe", "count": 1, "del": 0, "delRate": 0.0}]}, {"name": "敖鑫宇01-vw", "totalAudit": 942, "totalPass": 795, "totalDel": 147, "totalDelRate": 15.61, "areas": [{"area": "K长文本帖时效4h", "count": 550, "del": 95, "delRate": 17.27}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 290, "del": 7, "delRate": 2.41}, {"area": "K短文本帖时效4h", "count": 45, "del": 25, "delRate": 55.56}, {"area": "k长文本帖时效1h", "count": 40, "del": 20, "delRate": 50.0}, {"area": "PK视频题目(管低质5以内运算）", "count": 8, "del": 0, "delRate": 0.0}, {"area": "PKvip回答时效5min", "count": 4, "del": 0, "delRate": 0.0}, {"area": "PKvip提问时效5min", "count": 3, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 2, "del": 0, "delRate": 0.0}]}, {"name": "周铭杰01-vw", "totalAudit": 112, "totalPass": 96, "totalDel": 16, "totalDelRate": 14.29, "areas": [{"area": "K长文本帖时效4h", "count": 109, "del": 16, "delRate": 14.68}, {"area": "PK视频题目(管低质5以内运算)时效1h", "count": 1, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）", "count": 1, "del": 0, "delRate": 0.0}, {"area": "PK视频题目(管低质5以内运算）iframe时效1h", "count": 1, "del": 0, "delRate": 0.0}]}]};
+
+function fmt(n) { return Number(n).toLocaleString(); }
+
+document.getElementById('reportDate').textContent = DATA.monthDay;
+document.getElementById('totalAudit').textContent = fmt(DATA.totalAudit);
+document.getElementById('totalPass').textContent = fmt(DATA.totalPass) + ' (' + DATA.totalPassRate + '%)';
+document.getElementById('totalDel').textContent = fmt(DATA.totalDel) + ' (' + DATA.totalDelRate + '%)';
+document.getElementById('totalPeople').textContent = DATA.summary.length + ' 人';
+
+// 总量表
+const tbody = document.querySelector('#summaryTable tbody');
+DATA.summary.forEach(r => {
+  const flag = r.totalDelRate >= 35 ? '<span class="tag-danger">删除率高</span>' : '';
+  const delColor = r.totalDelRate >= 35 ? '#e74c3c' : (r.totalDelRate >= 20 ? '#f39c12' : '#27ae60');
+  const row = document.createElement('tr');
+  row.innerHTML = `
+    <td>${r.姓名}${flag}</td>
+    <td>${fmt(r.totalAudit)}</td>
+    <td>${fmt(r.totalPass)}</td>
+    <td>${fmt(r.totalDel)}</td>
+    <td><span style="color:${delColor};font-weight:600">${r.totalDelRate}%</span></td>
+  `;
+  tbody.appendChild(row);
+});
+
+// 明细卡片
+const container = document.getElementById('detailContainer');
+DATA.detail_by_person.forEach(person => {
+  const card = document.createElement('div');
+  card.className = 'person-card';
+
+  const delRateColor = person.totalDelRate >= 35 ? '#e74c3c' : (person.totalDelRate >= 20 ? '#f39c12' : '#27ae60');
+
+  let areaItems = person.areas.map(a => {
+    const flag = a.delRate >= 35 ? '<span class="tag-danger">高</span>' : '';
+    const barColor = a.delRate >= 35 ? '#e74c3c' : (a.delRate >= 20 ? '#f39c12' : '#27ae60');
+    const barW = Math.min(a.delRate, 100);
+    return `<div class="area-item">
+      <span class="area-name">${a.area}${flag}</span>
+      <div class="area-right">
+        <div class="progress-bar"><div class="fill" style="width:${barW}%;background:${barColor}"></div></div>
+        <span class="area-count">${fmt(a.count)} <span style="color:${barColor}">(${a.delRate}%)</span></span>
+      </div>
+    </div>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="person-header">
+      <div>
+        <div class="person-name">${person.name}</div>
+      </div>
+      <div class="person-stats">
+        <div class="person-stat"><div class="val">${fmt(person.totalAudit)}</div><div class="lbl">审核量</div></div>
+        <div class="person-stat"><div class="val" style="color:${delRateColor}">${person.totalDelRate}%</div><div class="lbl">删除率</div></div>
+      </div>
+    </div>
+    <div class="area-list">${areaItems}</div>
+  `;
+  container.appendChild(card);
+});
+</script>
+</body>
+</html>
