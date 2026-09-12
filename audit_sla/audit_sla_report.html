@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>审核区超时效监控 2026-09-13 05:18:03</title>
+<title>审核区超时效监控 2026-09-13 06:19:32</title>
 <style>
 * { margin:0; padding:0; box-sizing:border-box; }
 body { font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"PingFang SC","Microsoft YaHei",sans-serif; background:#f0f2f5; color:#333; padding:20px; }
@@ -38,33 +38,41 @@ td { padding:9px 10px; border-bottom:1px solid #f1f5f9; }
 <div class="container">
   <div class="header">
     <h1>⏰ 审核区超时效监控</h1>
-    <div class="meta">扫描时间 2026-09-13 05:18:03 ｜ 口径：单条滞留 &gt; 该区时效即超时（名称标注优先，未标注默认 24h）</div>
+    <div class="meta">扫描时间 2026-09-13 06:19:32 ｜ 口径：单条滞留 &gt; 该区时效即超时（名称标注优先，未标注默认 24h）</div>
   </div>
   <div class="stats">
-    <div class="stat"><div class="label">审核区总数</div><div class="value blue">5</div></div>
-    <div class="stat"><div class="label">当前总待审</div><div class="value blue">1,710</div></div>
+    <div class="stat"><div class="label">审核区总数</div><div class="value blue">8</div></div>
+    <div class="stat"><div class="label">当前总待审</div><div class="value blue">2,054</div></div>
     <div class="stat"><div class="label">存在超时的区</div><div class="value red">3</div></div>
-    <div class="stat"><div class="label">累计超时条数*</div><div class="value orange">54</div></div>
+    <div class="stat"><div class="label">累计超时条数*</div><div class="value orange">57</div></div>
   </div>
   <div class="card">
     <h2>各审核区状态</h2>
     <table>
       <tr><th>审核区</th><th class="num">待审量</th><th>时效</th><th class="num">抽查</th><th class="num">超时</th><th>最长滞留</th><th>最老记录入库</th></tr>
       <tr>
+<td><span class="badge warn">积压</span> K推荐词审核区</td>
+<td class="num">2</td>
+<td>1.0天</td>
+<td class="num">3</td>
+<td class="num ">0</td>
+<td>2分</td>
+<td>2026-09-13 06:17:18</td>
+</tr><tr>
 <td><span class="badge warn">积压</span> PU题目打标(iframe)</td>
-<td class="num">1,132</td>
+<td class="num">1,469</td>
 <td>1.0天</td>
 <td class="num">200</td>
 <td class="num ">0</td>
-<td>1.4时</td>
-<td>2026-09-13 03:51:51</td>
+<td>2.5时</td>
+<td>2026-09-13 03:51:14</td>
 </tr><tr>
 <td><span class="badge danger">超时</span> 编程vip时效15min</td>
-<td class="num">10</td>
+<td class="num">13</td>
 <td>15分钟</td>
-<td class="num">10</td>
-<td class="num red">9</td>
-<td>4.0时</td>
+<td class="num">13</td>
+<td class="num red">12</td>
+<td>5.1时</td>
 <td>2026-09-13 01:14:13</td>
 </tr><tr>
 <td><span class="badge danger">超时</span> 编程时效2h</td>
@@ -72,7 +80,7 @@ td { padding:9px 10px; border-bottom:1px solid #f1f5f9; }
 <td>2.0小时</td>
 <td class="num">200</td>
 <td class="num red">39</td>
-<td>92.5天</td>
+<td>92.6天</td>
 <td>2026-06-12 16:15:18</td>
 </tr><tr>
 <td><span class="badge danger">超时</span> k长文本帖时效1h</td>
@@ -80,20 +88,20 @@ td { padding:9px 10px; border-bottom:1px solid #f1f5f9; }
 <td>1.0小时</td>
 <td class="num">6</td>
 <td class="num red">6</td>
-<td>4.2时</td>
+<td>5.2时</td>
 <td>2026-09-13 01:08:53</td>
 </tr>
     </table>
   </div>
   <div class="card">
 <h3>🔴 编程时效2h <span class="tag">超时 39 条 / 待审 561</span></h3>
-<p class="meta">时效要求 2.0小时，最长滞留 <b>92.5天</b>（入库 2026-06-12 16:15:18，未知文件）</p>
+<p class="meta">时效要求 2.0小时，最长滞留 <b>92.6天</b>（入库 2026-06-12 16:15:18，跑酷世界（第七季））</p>
 </div><div class="card">
-<h3>🔴 编程vip时效15min <span class="tag">超时 9 条 / 待审 10</span></h3>
-<p class="meta">时效要求 15分钟，最长滞留 <b>4.0时</b>（入库 2026-09-13 01:14:13，巩固练习作品）</p>
+<h3>🔴 编程vip时效15min <span class="tag">超时 12 条 / 待审 13</span></h3>
+<p class="meta">时效要求 15分钟，最长滞留 <b>5.1时</b>（入库 2026-09-13 01:14:13，巩固练习作品）</p>
 </div><div class="card">
 <h3>🔴 k长文本帖时效1h <span class="tag">超时 6 条 / 待审 6</span></h3>
-<p class="meta">时效要求 1.0小时，最长滞留 <b>4.2时</b>（入库 2026-09-13 01:08:53，）</p>
+<p class="meta">时效要求 1.0小时，最长滞留 <b>5.2时</b>（入库 2026-09-13 01:08:53，）</p>
 </div>
   <div class="card"><h2>未监控区</h2><p>无</p></div>
   <div class="footer">自动生成 by 审核区超时效监控 ｜ *超时数为抽查结果，可能低估</div>
