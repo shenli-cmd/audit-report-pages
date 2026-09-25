@@ -1,249 +1,50 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>vw人员审核日报 - 历史存档</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>业务审核进审量日报</title>
 <style>
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f6fa; color: #333; }
-  .container { max-width: 960px; margin: 0 auto; padding: 24px 16px; }
-
-  .header { text-align: center; margin-bottom: 32px; }
-  .header h1 { font-size: 28px; color: #1a1a2e; margin-bottom: 6px; }
-  .header p { color: #888; font-size: 14px; }
-  .header .date-badge { display: inline-block; background: linear-gradient(135deg, #667eea, #764ba2); color: white; padding: 6px 20px; border-radius: 20px; font-size: 15px; margin-top: 8px; }
-
-  .summary-cards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 32px; }
-  .card { background: white; border-radius: 16px; padding: 20px; text-align: center; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-  .card .value { font-size: 28px; font-weight: 700; color: #1a1a2e; }
-  .card .label { font-size: 13px; color: #999; margin-top: 4px; }
-  .card.red .value { color: #e74c3c; }
-  .card.green .value { color: #27ae60; }
-  .card.blue .value { color: #2980b9; }
-
-  .section-title { font-size: 18px; color: #1a1a2e; margin-bottom: 16px; padding-left: 12px; border-left: 4px solid #667eea; }
-  .section { margin-bottom: 36px; }
-
-  table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-  thead th { background: #f8f9fc; padding: 14px 16px; text-align: left; font-size: 13px; color: #666; font-weight: 500; border-bottom: 1px solid #eee; }
-  thead th:not(:first-child) { text-align: right; }
-  tbody td { padding: 12px 16px; font-size: 14px; border-bottom: 1px solid #f5f5f5; }
-  tbody td:not(:first-child) { text-align: right; font-family: 'Monaco', 'Consolas', monospace; }
-  tbody tr:last-child td { border-bottom: none; }
-  tbody tr:hover { background: #f8f9fc; }
-
-  .tag-danger { background: #fee; color: #c0392b; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 6px; }
-  .tag-warning { background: #fff3cd; color: #856404; padding: 2px 8px; border-radius: 4px; font-size: 12px; margin-left: 6px; }
-
-  .person-card { background: white; border-radius: 16px; padding: 20px; margin-bottom: 20px; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-  .person-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; }
-  .person-name { font-size: 17px; font-weight: 600; color: #1a1a2e; }
-  .person-meta { font-size: 13px; color: #888; }
-  .person-stats { display: flex; gap: 24px; }
-  .person-stat { text-align: center; }
-  .person-stat .val { font-size: 20px; font-weight: 700; }
-  .person-stat .lbl { font-size: 12px; color: #999; }
-
-  .area-list { display: flex; flex-direction: column; gap: 8px; }
-  .area-item { display: flex; justify-content: space-between; align-items: center; padding: 10px 14px; background: #f8f9fc; border-radius: 8px; font-size: 14px; }
-  .area-item .area-name { color: #333; font-weight: 500; }
-  .area-item .area-right { display: flex; align-items: center; gap: 12px; }
-  .area-item .area-count { color: #666; font-family: 'Monaco', 'Consolas', monospace; }
-
-  .progress-bar { height: 6px; background: #eee; border-radius: 3px; margin-top: 6px; overflow: hidden; }
-  .progress-bar .fill { height: 100%; border-radius: 3px; transition: width 0.3s; }
-
-  .footer { text-align: center; color: #ccc; font-size: 12px; margin-top: 40px; padding: 20px; }
-
-  @media (max-width: 640px) {
-    .summary-cards { grid-template-columns: repeat(2, 1fr); }
-    table { font-size: 12px; }
-  }
-
-.index-container { max-width: 700px; margin: 60px auto; padding: 0 20px; }
-.index-header { text-align: center; margin-bottom: 40px; }
-.index-header h1 { font-size: 26px; color: #1a1a2e; }
-.index-header p { color: #888; margin-top: 8px; }
-.latest-link { display: block; background: linear-gradient(135deg,#667eea,#764ba2); color: white; text-align: center; padding: 16px; border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none; margin-bottom: 32px; }
-.latest-link:hover { opacity: 0.9; }
-table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.06); }
-th { background: #f8f9fc; padding: 14px 16px; text-align: left; font-size: 13px; color: #666; }
-td { padding: 12px 16px; border-bottom: 1px solid #f5f5f5; }
-a { color: #667eea; text-decoration: none; }
-a:hover { text-decoration: underline; }
+  body { font-family: -apple-system, "Microsoft YaHei", sans-serif; margin: 0; background: #f5f6f8; color: #222; }
+  .wrap { max-width: 960px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 22px; margin: 0 0 4px; }
+  .date { color: #888; font-size: 14px; margin-bottom: 20px; }
+  .cards { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+  .card { background: #fff; border-radius: 10px; padding: 16px 20px; flex: 1; min-width: 130px; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  .card .k { font-size: 13px; color: #888; }
+  .card .v { font-size: 24px; font-weight: 600; margin-top: 6px; }
+  .card .v.red { color: #e53935; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,.08); }
+  th, td { padding: 10px 14px; text-align: left; border-bottom: 1px solid #eee; font-size: 14px; }
+  th { background: #fafafa; color: #555; }
+  tr:last-child td { border-bottom: none; }
 </style>
 </head>
 <body>
-<div class="index-container">
-  <div class="index-header">
-    <h1>vw人员审核日报</h1>
-    <p>各vw人员每日审核量统计，含各审核区明细</p>
-  </div>
-  <a class="latest-link" href="https://shenli-cmd.github.io/audit-report-pages/report.html">👉 查看最新报告（2026-09-23）</a>
-  <div class="section-title" style="margin-bottom:16px;padding-left:12px;border-left:4px solid #667eea;font-size:18px;color:#1a1a2e;">历史存档</div>
+<div class="wrap">
+  <h1>业务审核进审量日报</h1>
+  <div class="date" id="date"></div>
+  <div class="cards" id="cards"></div>
   <table>
-    <thead><tr><th>日期</th><th>报告链接</th></tr></thead>
-    <tbody><tr><td>2026-09-23</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-23.html">查看报告</a></td></tr>
-<tr><td>2026-09-22</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-22.html">查看报告</a></td></tr>
-<tr><td>2026-09-21</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-21.html">查看报告</a></td></tr>
-<tr><td>2026-09-20</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-20.html">查看报告</a></td></tr>
-<tr><td>2026-09-19</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-19.html">查看报告</a></td></tr>
-<tr><td>2026-09-18</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-18.html">查看报告</a></td></tr>
-<tr><td>2026-09-17</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-17.html">查看报告</a></td></tr>
-<tr><td>2026-09-16</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-16.html">查看报告</a></td></tr>
-<tr><td>2026-09-15</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-15.html">查看报告</a></td></tr>
-<tr><td>2026-09-14</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-14.html">查看报告</a></td></tr>
-<tr><td>2026-09-13</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-13.html">查看报告</a></td></tr>
-<tr><td>2026-09-12</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-12.html">查看报告</a></td></tr>
-<tr><td>2026-09-11</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-11.html">查看报告</a></td></tr>
-<tr><td>2026-09-10</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-10.html">查看报告</a></td></tr>
-<tr><td>2026-09-09</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-09.html">查看报告</a></td></tr>
-<tr><td>2026-09-08</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-08.html">查看报告</a></td></tr>
-<tr><td>2026-09-07</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-07.html">查看报告</a></td></tr>
-<tr><td>2026-09-06</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-06.html">查看报告</a></td></tr>
-<tr><td>2026-09-05</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-05.html">查看报告</a></td></tr>
-<tr><td>2026-09-04</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-04.html">查看报告</a></td></tr>
-<tr><td>2026-09-03</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-03.html">查看报告</a></td></tr>
-<tr><td>2026-09-02</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-02.html">查看报告</a></td></tr>
-<tr><td>2026-09-01</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-09-01.html">查看报告</a></td></tr>
-<tr><td>2026-08-31</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-31.html">查看报告</a></td></tr>
-<tr><td>2026-08-30</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-30.html">查看报告</a></td></tr>
-<tr><td>2026-08-29</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-29.html">查看报告</a></td></tr>
-<tr><td>2026-08-28</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-28.html">查看报告</a></td></tr>
-<tr><td>2026-08-27</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-27.html">查看报告</a></td></tr>
-<tr><td>2026-08-26</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-26.html">查看报告</a></td></tr>
-<tr><td>2026-08-25</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-25.html">查看报告</a></td></tr>
-<tr><td>2026-08-24</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-24.html">查看报告</a></td></tr>
-<tr><td>2026-08-23</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-23.html">查看报告</a></td></tr>
-<tr><td>2026-08-22</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-22.html">查看报告</a></td></tr>
-<tr><td>2026-08-21</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-21.html">查看报告</a></td></tr>
-<tr><td>2026-08-20</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-20.html">查看报告</a></td></tr>
-<tr><td>2026-08-19</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-19.html">查看报告</a></td></tr>
-<tr><td>2026-08-18</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-18.html">查看报告</a></td></tr>
-<tr><td>2026-08-17</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-17.html">查看报告</a></td></tr>
-<tr><td>2026-08-16</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-16.html">查看报告</a></td></tr>
-<tr><td>2026-08-15</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-15.html">查看报告</a></td></tr>
-<tr><td>2026-08-14</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-14.html">查看报告</a></td></tr>
-<tr><td>2026-08-13</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-13.html">查看报告</a></td></tr>
-<tr><td>2026-08-12</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-12.html">查看报告</a></td></tr>
-<tr><td>2026-08-11</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-11.html">查看报告</a></td></tr>
-<tr><td>2026-08-10</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-10.html">查看报告</a></td></tr>
-<tr><td>2026-08-09</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-09.html">查看报告</a></td></tr>
-<tr><td>2026-08-08</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-08.html">查看报告</a></td></tr>
-<tr><td>2026-08-07</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-07.html">查看报告</a></td></tr>
-<tr><td>2026-08-06</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-06.html">查看报告</a></td></tr>
-<tr><td>2026-08-05</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-05.html">查看报告</a></td></tr>
-<tr><td>2026-08-04</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-04.html">查看报告</a></td></tr>
-<tr><td>2026-08-03</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-03.html">查看报告</a></td></tr>
-<tr><td>2026-08-02</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-02.html">查看报告</a></td></tr>
-<tr><td>2026-08-01</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-08-01.html">查看报告</a></td></tr>
-<tr><td>2026-07-31</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-31.html">查看报告</a></td></tr>
-<tr><td>2026-07-30</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-30.html">查看报告</a></td></tr>
-<tr><td>2026-07-29</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-29.html">查看报告</a></td></tr>
-<tr><td>2026-07-28</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-28.html">查看报告</a></td></tr>
-<tr><td>2026-07-27</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-27.html">查看报告</a></td></tr>
-<tr><td>2026-07-26</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-26.html">查看报告</a></td></tr>
-<tr><td>2026-07-25</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-25.html">查看报告</a></td></tr>
-<tr><td>2026-07-24</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-24.html">查看报告</a></td></tr>
-<tr><td>2026-07-23</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-23.html">查看报告</a></td></tr>
-<tr><td>2026-07-22</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-22.html">查看报告</a></td></tr>
-<tr><td>2026-07-21</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-21.html">查看报告</a></td></tr>
-<tr><td>2026-07-20</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-20.html">查看报告</a></td></tr>
-<tr><td>2026-07-19</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-19.html">查看报告</a></td></tr>
-<tr><td>2026-07-18</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-18.html">查看报告</a></td></tr>
-<tr><td>2026-07-17</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-17.html">查看报告</a></td></tr>
-<tr><td>2026-07-16</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-16.html">查看报告</a></td></tr>
-<tr><td>2026-07-15</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-15.html">查看报告</a></td></tr>
-<tr><td>2026-07-14</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-14.html">查看报告</a></td></tr>
-<tr><td>2026-07-13</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-13.html">查看报告</a></td></tr>
-<tr><td>2026-07-12</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-12.html">查看报告</a></td></tr>
-<tr><td>2026-07-11</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-11.html">查看报告</a></td></tr>
-<tr><td>2026-07-10</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-10.html">查看报告</a></td></tr>
-<tr><td>2026-07-09</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-09.html">查看报告</a></td></tr>
-<tr><td>2026-07-08</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-08.html">查看报告</a></td></tr>
-<tr><td>2026-07-07</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-07.html">查看报告</a></td></tr>
-<tr><td>2026-07-06</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-06.html">查看报告</a></td></tr>
-<tr><td>2026-07-05</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-05.html">查看报告</a></td></tr>
-<tr><td>2026-07-04</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-04.html">查看报告</a></td></tr>
-<tr><td>2026-07-03</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-03.html">查看报告</a></td></tr>
-<tr><td>2026-07-02</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-02.html">查看报告</a></td></tr>
-<tr><td>2026-07-01</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-07-01.html">查看报告</a></td></tr>
-<tr><td>2026-06-30</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-30.html">查看报告</a></td></tr>
-<tr><td>2026-06-29</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-29.html">查看报告</a></td></tr>
-<tr><td>2026-06-28</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-28.html">查看报告</a></td></tr>
-<tr><td>2026-06-27</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-27.html">查看报告</a></td></tr>
-<tr><td>2026-06-26</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-26.html">查看报告</a></td></tr>
-<tr><td>2026-06-25</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-25.html">查看报告</a></td></tr>
-<tr><td>2026-06-24</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-24.html">查看报告</a></td></tr>
-<tr><td>2026-06-23</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-23.html">查看报告</a></td></tr>
-<tr><td>2026-06-22</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-22.html">查看报告</a></td></tr>
-<tr><td>2026-06-21</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-21.html">查看报告</a></td></tr>
-<tr><td>2026-06-20</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-20.html">查看报告</a></td></tr>
-<tr><td>2026-06-19</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-19.html">查看报告</a></td></tr>
-<tr><td>2026-06-18</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-18.html">查看报告</a></td></tr>
-<tr><td>2026-06-17</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-17.html">查看报告</a></td></tr>
-<tr><td>2026-06-16</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-16.html">查看报告</a></td></tr>
-<tr><td>2026-06-15</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-15.html">查看报告</a></td></tr>
-<tr><td>2026-06-14</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-14.html">查看报告</a></td></tr>
-<tr><td>2026-06-13</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-13.html">查看报告</a></td></tr>
-<tr><td>2026-06-12</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-12.html">查看报告</a></td></tr>
-<tr><td>2026-06-11</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-11.html">查看报告</a></td></tr>
-<tr><td>2026-06-10</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-10.html">查看报告</a></td></tr>
-<tr><td>2026-06-09</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-09.html">查看报告</a></td></tr>
-<tr><td>2026-06-08</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-08.html">查看报告</a></td></tr>
-<tr><td>2026-06-07</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-07.html">查看报告</a></td></tr>
-<tr><td>2026-06-06</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-06.html">查看报告</a></td></tr>
-<tr><td>2026-06-05</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-05.html">查看报告</a></td></tr>
-<tr><td>2026-06-04</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-04.html">查看报告</a></td></tr>
-<tr><td>2026-06-03</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-03.html">查看报告</a></td></tr>
-<tr><td>2026-06-02</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-02.html">查看报告</a></td></tr>
-<tr><td>2026-06-01</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-06-01.html">查看报告</a></td></tr>
-<tr><td>2026-05-31</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-31.html">查看报告</a></td></tr>
-<tr><td>2026-05-30</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-30.html">查看报告</a></td></tr>
-<tr><td>2026-05-29</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-29.html">查看报告</a></td></tr>
-<tr><td>2026-05-28</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-28.html">查看报告</a></td></tr>
-<tr><td>2026-05-27</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-27.html">查看报告</a></td></tr>
-<tr><td>2026-05-26</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-26.html">查看报告</a></td></tr>
-<tr><td>2026-05-25</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-25.html">查看报告</a></td></tr>
-<tr><td>2026-05-24</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-24.html">查看报告</a></td></tr>
-<tr><td>2026-05-23</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-23.html">查看报告</a></td></tr>
-<tr><td>2026-05-22</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-22.html">查看报告</a></td></tr>
-<tr><td>2026-05-21</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-21.html">查看报告</a></td></tr>
-<tr><td>2026-05-20</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-20.html">查看报告</a></td></tr>
-<tr><td>2026-05-19</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-19.html">查看报告</a></td></tr>
-<tr><td>2026-05-18</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-18.html">查看报告</a></td></tr>
-<tr><td>2026-05-17</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-17.html">查看报告</a></td></tr>
-<tr><td>2026-05-16</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-16.html">查看报告</a></td></tr>
-<tr><td>2026-05-14</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-14.html">查看报告</a></td></tr>
-<tr><td>2026-05-13</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-13.html">查看报告</a></td></tr>
-<tr><td>2026-05-12</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-12.html">查看报告</a></td></tr>
-<tr><td>2026-05-11</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-11.html">查看报告</a></td></tr>
-<tr><td>2026-05-10</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-10.html">查看报告</a></td></tr>
-<tr><td>2026-05-09</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-09.html">查看报告</a></td></tr>
-<tr><td>2026-05-08</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-08.html">查看报告</a></td></tr>
-<tr><td>2026-05-07</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-07.html">查看报告</a></td></tr>
-<tr><td>2026-05-06</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-06.html">查看报告</a></td></tr>
-<tr><td>2026-05-05</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-05-05.html">查看报告</a></td></tr>
-<tr><td>2026-04-28</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-28.html">查看报告</a></td></tr>
-<tr><td>2026-04-27</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-27.html">查看报告</a></td></tr>
-<tr><td>2026-04-26</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-26.html">查看报告</a></td></tr>
-<tr><td>2026-04-23</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-23.html">查看报告</a></td></tr>
-<tr><td>2026-04-22</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-22.html">查看报告</a></td></tr>
-<tr><td>2026-04-21</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-21.html">查看报告</a></td></tr>
-<tr><td>2026-04-20</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-20.html">查看报告</a></td></tr>
-<tr><td>2026-04-19</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-19.html">查看报告</a></td></tr>
-<tr><td>2026-04-18</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-18.html">查看报告</a></td></tr>
-<tr><td>2026-04-17</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-17.html">查看报告</a></td></tr>
-<tr><td>2026-04-16</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-16.html">查看报告</a></td></tr>
-<tr><td>2026-04-15</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-15.html">查看报告</a></td></tr>
-<tr><td>2026-04-14</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-14.html">查看报告</a></td></tr>
-<tr><td>2026-04-13</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-13.html">查看报告</a></td></tr>
-<tr><td>2026-04-12</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-12.html">查看报告</a></td></tr>
-<tr><td>2026-04-11</td><td><a href="https://shenli-cmd.github.io/audit-report-pages/report-2026-04-11.html">查看报告</a></td></tr>
-</tbody>
+    <thead><tr><th>审核区</th><th>审核量</th><th>通过量</th><th>删除量</th><th>删除率</th></tr></thead>
+    <tbody id="area-body"></tbody>
   </table>
 </div>
+<script>
+const DATA = {"date": "9月25日", "summary": {"vw人数": 17, "审核量": 89700, "通过量": 81826, "删除量": 7874, "删除率": 8.78, "各区明细": [{"审核区名称": "PK试卷iframe", "审核量": 34040, "通过量": 34038, "删除量": 2, "删除率": 0.01}, {"审核区名称": "CK社区图文帖时效10min", "审核量": 7261, "通过量": 3486, "删除量": 3775, "删除率": 51.99}, {"审核区名称": "PK题目(iframe)", "审核量": 7096, "通过量": 7092, "删除量": 4, "删除率": 0.06}, {"审核区名称": "k评论审核区", "审核量": 4271, "通过量": 3950, "删除量": 321, "删除率": 7.52}, {"审核区名称": "K封面图审核区", "审核量": 3695, "通过量": 3695, "删除量": 0, "删除率": 0.0}, {"审核区名称": "风险队列", "审核量": 3591, "通过量": 3158, "删除量": 433, "删除率": 12.06}, {"审核区名称": "编程时效2h", "审核量": 3564, "通过量": 3294, "删除量": 270, "删除率": 7.58}, {"审核区名称": "CK社区二级评论时效15min", "审核量": 3046, "通过量": 2403, "删除量": 643, "删除率": 21.11}, {"审核区名称": "K短文本帖时效4h", "审核量": 2647, "通过量": 1989, "删除量": 658, "删除率": 24.86}, {"审核区名称": "PK视频题目(管低质5以内运算）iframe时效1h", "审核量": 2296, "通过量": 2275, "删除量": 21, "删除率": 0.91}, {"审核区名称": "PU题目打标(iframe)", "审核量": 2171, "通过量": 2139, "删除量": 32, "删除率": 1.47}, {"审核区名称": "CK社区一级评论时效15min", "审核量": 1858, "通过量": 1325, "删除量": 533, "删除率": 28.69}, {"审核区名称": "k昵称", "审核量": 1740, "通过量": 1231, "删除量": 509, "删除率": 29.25}, {"审核区名称": "试卷征集时效1h", "审核量": 1740, "通过量": 1708, "删除量": 32, "删除率": 1.84}, {"审核区名称": "PK试卷时效30min", "审核量": 1508, "通过量": 1508, "删除量": 0, "删除率": 0.0}, {"审核区名称": "PK视频题目(管低质5以内运算)日清iframe", "审核量": 1049, "通过量": 1049, "删除量": 0, "删除率": 0.0}, {"审核区名称": "k长文本帖时效1h", "审核量": 958, "通过量": 776, "删除量": 182, "删除率": 19.0}, {"审核区名称": "PK视频题目(管低质5以内运算）", "审核量": 903, "通过量": 903, "删除量": 0, "删除率": 0.0}, {"审核区名称": "K长文本帖时效4h", "审核量": 817, "通过量": 759, "删除量": 58, "删除率": 7.1}, {"审核区名称": "UK通用审核", "审核量": 801, "通过量": 793, "删除量": 8, "删除率": 1.0}, {"审核区名称": "k图文区", "审核量": 745, "通过量": 553, "删除量": 192, "删除率": 25.77}, {"审核区名称": "成人图文区", "审核量": 704, "通过量": 700, "删除量": 4, "删除率": 0.57}, {"审核区名称": "PKvip回答时效5min", "审核量": 560, "通过量": 560, "删除量": 0, "删除率": 0.0}, {"审核区名称": "PK题目时效1h", "审核量": 527, "通过量": 519, "删除量": 8, "删除率": 1.52}, {"审核区名称": "编程vip时效15min", "审核量": 498, "通过量": 498, "删除量": 0, "删除率": 0.0}, {"审核区名称": "PK试卷", "审核量": 412, "通过量": 412, "删除量": 0, "删除率": 0.0}, {"审核区名称": "PK视频-切帧（增量）时效1h", "审核量": 287, "通过量": 287, "删除量": 0, "删除率": 0.0}, {"审核区名称": "PKvip提问时效5min", "审核量": 158, "通过量": 155, "删除量": 3, "删除率": 1.9}, {"审核区名称": "KAI业务时效30min", "审核量": 147, "通过量": 67, "删除量": 80, "删除率": 54.42}, {"审核区名称": "k视频", "审核量": 137, "通过量": 137, "删除量": 0, "删除率": 0.0}, {"审核区名称": "K推荐词审核区", "审核量": 120, "通过量": 98, "删除量": 22, "删除率": 18.33}, {"审核区名称": "PK题目", "审核量": 101, "通过量": 27, "删除量": 74, "删除率": 73.27}, {"审核区名称": "PK题目时效20min", "审核量": 91, "通过量": 91, "删除量": 0, "删除率": 0.0}, {"审核区名称": "PK视频题目(管低质5以内运算)时效1h", "审核量": 64, "通过量": 64, "删除量": 0, "删除率": 0.0}, {"审核区名称": "AI昵称", "审核量": 45, "通过量": 39, "删除量": 6, "删除率": 13.33}, {"审核区名称": "k文件审核区", "审核量": 20, "通过量": 19, "删除量": 1, "删除率": 5.0}, {"审核区名称": "成人评论", "审核量": 17, "通过量": 17, "删除量": 0, "删除率": 0.0}, {"审核区名称": "成人昵称", "审核量": 7, "通过量": 4, "删除量": 3, "删除率": 42.86}, {"审核区名称": "PK试卷1", "审核量": 6, "通过量": 6, "删除量": 0, "删除率": 0.0}, {"审核区名称": "PKvip提问5min", "审核量": 2, "通过量": 2, "删除量": 0, "删除率": 0.0}], "明细条数": 914}};
+document.getElementById('date').textContent = DATA.date;
+const s = DATA.summary;
+const cards = [
+  {k:'vw 人数', v:s.vw人数},
+  {k:'审核量', v:s.审核量},
+  {k:'通过量', v:s.通过量},
+  {k:'删除量', v:s.删除量, red:true},
+  {k:'删除率', v:s.删除率 + '%', red:true},
+];
+document.getElementById('cards').innerHTML = cards.map(c=>
+  `<div class="card"><div class="k">${c.k}</div><div class="v${c.red?' red':''}">${c.v}</div></div>`).join('');
+document.getElementById('area-body').innerHTML = s.各区明细.map(a=>
+  `<tr><td>${a.审核区名称}</td><td>${a.审核量}</td><td>${a.通过量}</td><td>${a.删除量}</td><td>${a.删除率}%</td></tr>`).join('');
+</script>
 </body>
 </html>
