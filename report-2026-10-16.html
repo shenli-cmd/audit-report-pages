@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-page-node-id="gsDug07WBS2oURWBL3GnU9">
-<head data-page-node-id="DFlPiNGb7EHBi4b1iaYteb">
-<meta charset="UTF-8" data-page-node-id="oL23KFTBTCXPHUjGJEzZcV">
-<meta name="viewport" content="width=device-width, initial-scale=1.0" data-page-node-id="W1ANFaAtmGi6I4QBHHRs67">
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>vw人员审核日报</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -62,59 +62,59 @@
   }
 </style>
 </head>
-<body data-page-node-id="M2wVtoQUHLQFUpGWCswBmJ">
-<div class="container" data-page-node-id="dXT0NJp3lc52yRu9AbeuU8">
+<body>
+<div class="container">
 
-  <div class="header" data-page-node-id="yk6lE4qljganOZct6LBgyC">
-    <h1 data-page-node-id="3k6Q4aOabk5zosca2li67w">vw人员审核日报</h1>
-    <div class="date-badge" id="reportDate" data-page-node-id="YhekctHlpBzI3jW245XodU">加载中...</div>
-    <p data-page-node-id="bjIUQcSJ7KGkYm1fg8Db6T">数据来源：各业务线分天审核数据</p>
+  <div class="header">
+    <h1>vw人员审核日报</h1>
+    <div class="date-badge" id="reportDate">加载中...</div>
+    <p>数据来源：各业务线分天审核数据</p>
   </div>
 
   <!-- 整体汇总卡片 -->
-  <div class="summary-cards" data-page-node-id="Sv9ZDnX1O9gJnicfudIWiA">
-    <div class="card blue" data-page-node-id="WITDHIF5nNKthmhFjiGV3x">
-      <div class="value" id="totalAudit" data-page-node-id="Mq5mJX5EDscHA1wLJdQWSX">-</div>
-      <div class="label" data-page-node-id="MT9NB5ta0HoAiEW4ZqCPiB">总审核量</div>
+  <div class="summary-cards">
+    <div class="card blue">
+      <div class="value" id="totalAudit">-</div>
+      <div class="label">总审核量</div>
     </div>
-    <div class="card green" data-page-node-id="FRCT9dE4jrFMEgh4t5W0l7">
-      <div class="value" id="totalPass" data-page-node-id="AmOFqvUtyu2uDzQX1qmcVq">-</div>
-      <div class="label" data-page-node-id="CjKzpfwubOjzNVxcMsqBSw">通过量</div>
+    <div class="card green">
+      <div class="value" id="totalPass">-</div>
+      <div class="label">通过量</div>
     </div>
-    <div class="card red" data-page-node-id="FPdMacvEUMr4l6ybRQ9VHY">
-      <div class="value" id="totalDel" data-page-node-id="rNLPWAjVtG40aBqGFHLmHf">-</div>
-      <div class="label" data-page-node-id="ADrGTHU0HaDwLFNnUZd5E1">删除量</div>
+    <div class="card red">
+      <div class="value" id="totalDel">-</div>
+      <div class="label">删除量</div>
     </div>
-    <div class="card" data-page-node-id="7pIb4zf4ytZbbGYouuvv6C">
-      <div class="value" id="totalPeople" data-page-node-id="eq4GywcKP3Q2yN5ryasCMQ">-</div>
-      <div class="label" data-page-node-id="JZBtrcQ969HEBTrHTennT6">涉及人员</div>
+    <div class="card">
+      <div class="value" id="totalPeople">-</div>
+      <div class="label">涉及人员</div>
     </div>
   </div>
 
   <!-- 各人员总量表 -->
-  <div class="section" data-page-node-id="Jr3J9S9qkUYMFu3Cm5n4xA">
-    <div class="section-title" data-page-node-id="dYenAkgrJBA95IcxXf7ZaT">各vw人员总量汇总</div>
-    <table id="summaryTable" data-page-node-id="iWdKPk9nOi0E0UWZ4Fs0D0">
-      <thead data-page-node-id="tw1YDJGjGmjsLPPgFNkhU3">
-        <tr data-page-node-id="3tTIGYnB7Ryv662xksqdng">
-          <th data-page-node-id="7yfBZOnJ2TNzKYqa02T1UP">审核人</th>
-          <th data-page-node-id="hxy3tmrVlpSWO0Xwz0O3Kc">审核量</th>
-          <th data-page-node-id="XCrOIwI8D6WVIJGu45NrU7">通过量</th>
-          <th data-page-node-id="GUOLgEJs09g6HREOuaiFgZ">删除量</th>
-          <th data-page-node-id="CzR20sNMUJFQFNvZQkbeec">删除率</th>
+  <div class="section">
+    <div class="section-title">各vw人员总量汇总</div>
+    <table id="summaryTable">
+      <thead>
+        <tr>
+          <th>审核人</th>
+          <th>审核量</th>
+          <th>通过量</th>
+          <th>删除量</th>
+          <th>删除率</th>
         </tr>
       </thead>
-      <tbody data-page-node-id="67OAtqaPq6209WSngsO8zU"></tbody>
+      <tbody></tbody>
     </table>
   </div>
 
   <!-- 各审核区明细 -->
-  <div class="section" data-page-node-id="yWAVv9jgHe4XqBijjUy6W9">
-    <div class="section-title" data-page-node-id="LVbunLARMaJAroohXESQn7">各vw人员各审核区明细</div>
-    <div id="detailContainer" data-page-node-id="6qDTfj11dnisVwNCCEdtwZ"></div>
+  <div class="section">
+    <div class="section-title">各vw人员各审核区明细</div>
+    <div id="detailContainer"></div>
   </div>
 
-  <div class="footer" data-page-node-id="X4qeoLKQQsPFCGBHyavptH">
+  <div class="footer">
     本报告由 WorkBuddy 自动生成 · 数据每日更新
   </div>
 </div>
